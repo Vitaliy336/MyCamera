@@ -61,5 +61,6 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     public void setDisplayOrientation(int displayOrientation) {
         this.displayOrientation = displayOrientation;
     }
+    
 
 }

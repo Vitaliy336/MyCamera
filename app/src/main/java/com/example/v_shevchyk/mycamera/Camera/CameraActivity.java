@@ -73,6 +73,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         preview = findViewById(R.id.preview);
         pictureBtn = findViewById(R.id.picture_btn);
         Camera.Parameters parameters = mCamera.getParameters();
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         checkOrientation(parameters);
         resizeModule = new ResizeModule(display, mCamera);
         mPreview = new CameraPreview(this, mCamera);
