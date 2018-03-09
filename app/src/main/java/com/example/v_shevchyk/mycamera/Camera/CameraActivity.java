@@ -1,6 +1,7 @@
 package com.example.v_shevchyk.mycamera.Camera;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -67,12 +68,29 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     private void initView() {
+        mCamera = getCameraInstance();
         Display display = getWindowManager().getDefaultDisplay();
         preview = findViewById(R.id.preview);
         pictureBtn = findViewById(R.id.picture_btn);
-        mCamera = getCameraInstance();
+        Camera.Parameters parameters = mCamera.getParameters();
+        checkOrientation(parameters);
         resizeModule = new ResizeModule(display, mCamera);
         mPreview = new CameraPreview(this, mCamera);
+    }
+
+    private void checkOrientation(Camera.Parameters p) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            p.set("orientation", "portrait");
+            p.set("rotation",90);
+            mCamera.setParameters(p);
+        }
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            p.set("orientation", "landscape");
+            p.set("rotation", 90);
+            mCamera.setParameters(p);
+        }
     }
 
 

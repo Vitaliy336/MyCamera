@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class CameraPresenter implements CameraContract.ICameraPresenter {
     private CameraContract.ICameraView view;
-    private int displayOrientation;
+    private int displayOrientation = 1;
 
     @Override
     public void attachView(CameraContract.ICameraView view) {
@@ -41,6 +41,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
                 if(!saveDir.exists()){
                     saveDir.mkdir();
                 }
+
                 try {
                     FileOutputStream os = new FileOutputStream(String.format("/sdcard/MyFolder/%d.jpg",
                             System.currentTimeMillis()));
@@ -60,4 +61,5 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     public void setDisplayOrientation(int displayOrientation) {
         this.displayOrientation = displayOrientation;
     }
+
 }
