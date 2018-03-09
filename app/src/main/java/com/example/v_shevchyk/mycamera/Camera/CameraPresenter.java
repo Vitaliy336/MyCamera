@@ -52,6 +52,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                camera.startPreview();
             }
         };
         view.takePicture(callback);
@@ -61,6 +62,6 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     public void setDisplayOrientation(int displayOrientation) {
         this.displayOrientation = displayOrientation;
     }
-    
+
 
 }
