@@ -5,17 +5,15 @@ import android.hardware.Camera;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
-import com.example.v_shevchyk.mycamera.RisizeModule;
+import com.example.v_shevchyk.mycamera.ResizeModule;
 
 public class CameraActivity extends AppCompatActivity implements CameraContract.ICameraView{
     private Camera mCamera;
@@ -23,7 +21,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     private CameraPreview mPreview;
     private FloatingActionButton pictureBtn;
     private CameraPresenter presenter;
-    private RisizeModule risizeModule;
+    private ResizeModule resizeModule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +39,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         initView();
         initListener();
         initPresenter();
+        presenter.startCamera();
 
     }
 
@@ -62,22 +61,18 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         pictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.takePictureClick();
+                presenter.savePicture();
             }
         });
     }
 
     private void initView() {
         Display display = getWindowManager().getDefaultDisplay();
-        int rotation = getWindowManager().getDefaultDisplay().getRotation();
         preview = findViewById(R.id.preview);
         pictureBtn = findViewById(R.id.picture_btn);
         mCamera = getCameraInstance();
-        risizeModule = new RisizeModule(display, mCamera);
+        resizeModule = new ResizeModule(display, mCamera);
         mPreview = new CameraPreview(this, mCamera);
-        preview.addView(mPreview);
-        preview.getLayoutParams().height = (int)(risizeModule.calculate(true).bottom);
-        preview.getLayoutParams().width = (int)(risizeModule.calculate(true).right);
     }
 
 
@@ -92,7 +87,22 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     @Override
-    public void takePicture() {
-        Toast.makeText(this, "sss", Toast.LENGTH_SHORT).show();
+    public void takePicture(Camera.PictureCallback callback) {
+        mCamera.takePicture(null, null, callback);
+    }
+
+    @Override
+    public void startPreview() {
+        preview.addView(mPreview);
+    }
+
+    @Override
+    public void fitPreview() {
+        preview.getLayoutParams().height = (int)(resizeModule.calculate(true).bottom);
+        preview.getLayoutParams().width = (int)(resizeModule.calculate(true).right);
+    }
+
+    private void setDisplayOrientation(){
+        presenter.setDisplayOrientation(this.getResources().getConfiguration().orientation);
     }
 }

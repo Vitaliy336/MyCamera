@@ -9,11 +9,11 @@ import android.view.Display;
  * Created by v_shevchyk on 07.03.18.
  */
 
-public class RisizeModule {
+public class ResizeModule {
     private Display displaySize;
     private Camera camera;
 
-    public RisizeModule(Display displaySize, Camera camera) {
+    public ResizeModule(Display displaySize, Camera camera) {
         this.displaySize = displaySize;
         this.camera = camera;
     }

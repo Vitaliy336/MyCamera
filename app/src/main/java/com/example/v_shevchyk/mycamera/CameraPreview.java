@@ -29,6 +29,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         try {
             mCamera.setPreviewDisplay(surfaceHolder);
+            mCamera.setDisplayOrientation(90);
             mCamera.startPreview();
         } catch (IOException e) {
             Log.d("s", "Error setting camera preview: " + e.getMessage());
@@ -41,6 +42,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         setCameraDisplayOrientation(0);
         try {
             mCamera.setPreviewDisplay(mHolder);
+            mCamera.setDisplayOrientation(90);
             mCamera.startPreview();
 
         } catch (Exception e) {
@@ -54,28 +56,27 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
-    private void setCameraDisplayOrientation(int camID){
+    private void setCameraDisplayOrientation(int camID) {
         int rotation = 90;
         int degrees = 0;
-        switch (rotation){
+        switch (rotation) {
             case Surface.ROTATION_0:
-                degrees =0;
+                degrees = 0;
             case Surface.ROTATION_90:
-                degrees =90;
+                degrees = 90;
             case Surface.ROTATION_180:
-                degrees =180;
+                degrees = 180;
             case Surface.ROTATION_270:
-                degrees =270;
+                degrees = 270;
         }
         int res = 0;
 
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         Camera.getCameraInfo(camID, cameraInfo);
 
-        if(cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK){
+        if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
             res = ((360 - degrees) + cameraInfo.orientation);
-        }
-        else if(cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT){
+        } else if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             res = ((360 - degrees) - cameraInfo.orientation);
             res += 360;
         }
