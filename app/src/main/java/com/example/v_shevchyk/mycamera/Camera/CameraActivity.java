@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.SeekBar;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
@@ -26,6 +27,8 @@ import java.io.File;
 public class CameraActivity extends AppCompatActivity implements CameraContract.ICameraView{
     private Camera mCamera;
     private Button galery;
+    private SeekBar zoom;
+    private Camera.Parameters parameters;
     private FrameLayout preview;
     private CameraPreview mPreview;
     private FloatingActionButton pictureBtn;
@@ -71,6 +74,26 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     private void initListener() {
+        zoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if(mCamera.getParameters().isZoomSupported()){
+                    parameters.setZoom(i);
+                    mCamera.setParameters(parameters);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         pictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,15 +116,20 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 
     private void initView() {
         mCamera = getCameraInstance();
-        Display display = getWindowManager().getDefaultDisplay();
+        parameters = mCamera.getParameters();
         preview = findViewById(R.id.preview);
+        galery = findViewById(R.id.gal);
+        zoom = findViewById(R.id.zoom);
         pictureBtn = findViewById(R.id.picture_btn);
-        Camera.Parameters parameters = mCamera.getParameters();
+
+        Display display = getWindowManager().getDefaultDisplay();
+
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         checkOrientation(parameters);
         resizeModule = new ResizeModule(display, mCamera);
         mPreview = new CameraPreview(this, mCamera);
-        galery = findViewById(R.id.gal);
+
+        zoom.setMax(parameters.getMaxZoom());
     }
 
     private void checkOrientation(Camera.Parameters p) { //magic
