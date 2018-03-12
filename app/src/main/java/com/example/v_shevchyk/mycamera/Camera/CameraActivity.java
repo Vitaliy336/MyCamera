@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -56,10 +57,12 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     protected void onPause() {
         super.onPause();
         if (mCamera != null){
+            mPreview.getHolder().removeCallback(mPreview);
             mCamera.release();
             mCamera = null;
         }
         presenter.updateGalery();
+        Log.e("sss", "onPause");
     }
 
     private void initPresenter() {
@@ -78,12 +81,12 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         galery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("/storage/emulated/0/");
                 Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.withAppendedPath(uri, "/MyFolder"), "image/*");
+                intent.setAction(android.content.Intent.ACTION_VIEW);
+                intent.setType("image/*");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
             }
         });
     }
