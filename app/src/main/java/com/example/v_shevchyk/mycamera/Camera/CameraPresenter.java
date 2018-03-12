@@ -59,5 +59,10 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         this.displayOrientation = displayOrientation;
     }
 
+    @Override
+    public void updateGalery() {
+        view.updateGaleryBroadcast();
+    }
+
 
 }

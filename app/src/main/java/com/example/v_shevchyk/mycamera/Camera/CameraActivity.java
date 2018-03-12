@@ -13,14 +13,18 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
+import java.io.File;
+
 public class CameraActivity extends AppCompatActivity implements CameraContract.ICameraView{
     private Camera mCamera;
+    private Button galery;
     private FrameLayout preview;
     private CameraPreview mPreview;
     private FloatingActionButton pictureBtn;
@@ -44,6 +48,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         initListener();
         initPresenter();
         presenter.startCamera();
+        presenter.updateGalery();
 
     }
 
@@ -54,6 +59,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
             mCamera.release();
             mCamera = null;
         }
+        presenter.updateGalery();
     }
 
     private void initPresenter() {
@@ -68,6 +74,18 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
                 presenter.savePicture();
             }
         });
+
+        galery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("/storage/emulated/0/");
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.withAppendedPath(uri, "/MyFolder"), "image/*");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {
@@ -80,6 +98,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         checkOrientation(parameters);
         resizeModule = new ResizeModule(display, mCamera);
         mPreview = new CameraPreview(this, mCamera);
+        galery = findViewById(R.id.gal);
     }
 
     private void checkOrientation(Camera.Parameters p) { //magic
@@ -111,9 +130,8 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     @Override
     public void takePicture(Camera.PictureCallback callback) {
         mCamera.takePicture(null, null, callback);
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update galery after take a photo
-                Uri.parse("file://"
-                        + Environment.getExternalStorageDirectory())));
+        presenter.updateGalery();
+
     }
 
     @Override
@@ -125,6 +143,13 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     public void fitPreview() {
         preview.getLayoutParams().height = (int)(resizeModule.calculate(true).bottom);
         preview.getLayoutParams().width = (int)(resizeModule.calculate(true).right);
+    }
+
+    @Override
+    public void updateGaleryBroadcast() {
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update galery after take a photo
+                Uri.parse("file://"
+                        + Environment.getExternalStorageDirectory())));
     }
 
     private void setDisplayOrientation(){
