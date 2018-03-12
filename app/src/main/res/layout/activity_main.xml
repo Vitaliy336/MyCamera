@@ -24,9 +24,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/gal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +36,8 @@
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_gallery"
+        app:fabSize="mini"
         android:layout_marginLeft="8dp" />
 
     <SeekBar

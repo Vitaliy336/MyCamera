@@ -26,12 +26,11 @@ import java.io.File;
 
 public class CameraActivity extends AppCompatActivity implements CameraContract.ICameraView{
     private Camera mCamera;
-    private Button galery;
     private SeekBar zoom;
     private Camera.Parameters parameters;
     private FrameLayout preview;
     private CameraPreview mPreview;
-    private FloatingActionButton pictureBtn;
+    private FloatingActionButton pictureBtn, galery;;
     private CameraPresenter presenter;
     private ResizeModule resizeModule;
 
