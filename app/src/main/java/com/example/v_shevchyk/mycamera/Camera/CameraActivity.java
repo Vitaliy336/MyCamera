@@ -1,8 +1,11 @@
 package com.example.v_shevchyk.mycamera.Camera;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.hardware.Camera;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,7 +82,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         mPreview = new CameraPreview(this, mCamera);
     }
 
-    private void checkOrientation(Camera.Parameters p) {
+    private void checkOrientation(Camera.Parameters p) { //magic
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
         {
             p.set("orientation", "portrait");
@@ -108,6 +111,9 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     @Override
     public void takePicture(Camera.PictureCallback callback) {
         mCamera.takePicture(null, null, callback);
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update galery after take a photo
+                Uri.parse("file://"
+                        + Environment.getExternalStorageDirectory())));
     }
 
     @Override

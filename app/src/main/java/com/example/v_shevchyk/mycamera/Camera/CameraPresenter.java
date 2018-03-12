@@ -7,10 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/**
- * Created by v_shevchyk on 09.03.18.
- */
-
 public class CameraPresenter implements CameraContract.ICameraPresenter {
     private CameraContract.ICameraView view;
     private int displayOrientation = 1;

@@ -5,9 +5,6 @@ import android.graphics.RectF;
 import android.hardware.Camera;
 import android.view.Display;
 
-/**
- * Created by v_shevchyk on 07.03.18.
- */
 
 public class ResizeModule {
     private Display displaySize;
