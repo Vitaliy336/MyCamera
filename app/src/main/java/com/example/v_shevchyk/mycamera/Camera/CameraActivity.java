@@ -77,40 +77,44 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     private void initListener() {
-        sceneMode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.clickSceneMode();
-            }
-        });
 
-        whitelvl.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener handler = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.clickWhiteLvl();
+                switch (view.getId()){
+                    case R.id.color_efects:
+                        presenter.clickColor();
+                        break;
+                    case R.id.flash_light:
+                        presenter.clickFlashLight();
+                        break;
+                    case R.id.white_level:
+                        presenter.clickWhiteLvl();
+                        break;
+                    case R.id.scene:
+                        presenter.clickSceneMode();
+                        break;
+                    case R.id.gal:
+                        presenter.galeryClick();
+                        break;
+                    case R.id.settings:
+                        presenter.settingsClick(settingsLayout.getVisibility());
+                        break;
+                    case R.id.picture_btn:
+                        presenter.savePicture();
+                        break;
+                }
             }
-        });
+        };
 
-        flashLight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.clickFlashLight();
-            }
-        });
-
-        colorEfects.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.clickColor();
-            }
-        });
-
-        settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.settingsClick(settingsLayout.getVisibility());
-            }
-        });
+        pictureBtn.setOnClickListener(handler);
+        galery.setOnClickListener(handler);
+        settings.setOnClickListener(handler);
+        flashLight.setOnClickListener(handler);
+//        timer.setOnClickListener(handler);
+        colorEfects.setOnClickListener(handler);
+        whitelvl.setOnClickListener(handler);
+        sceneMode.setOnClickListener(handler);
 
         zoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -131,23 +135,10 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 
             }
         });
-
-        pictureBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.savePicture();
-            }
-        });
-
-        galery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.galeryClick();
-            }
-        });
     }
 
     private void initView() {
+
         mCamera = getCameraInstance();
         settingsLayout = findViewById(R.id.settingslayout);
         parameters = mCamera.getParameters();
