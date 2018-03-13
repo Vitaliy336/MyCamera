@@ -81,14 +81,14 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         flashLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                optionsDialog(parameters.getSupportedFlashModes());
+                optionsDialog(parameters.getSupportedFlashModes(), flashLight.getId());
             }
         });
 
         colorEfects.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //optionsDialog(parameters.getSupportedColorEffects());
+                optionsDialog(parameters.getSupportedColorEffects(), colorEfects.getId());
             }
         });
 
@@ -232,15 +232,25 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
 
-    private void optionsDialog(List<String> posibleOptions){
+    private void optionsDialog(List<String> posibleOptions, final int id){
         final String [] options = posibleOptions.toArray(new String[posibleOptions.size()]);
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
+        final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
         mBuilder.setTitle("Choose an item");
         mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                parameters.setFlashMode(options[i]);
-                mCamera.setParameters(parameters);
+                switch (id){
+                    case R.id.flash_light:
+                        parameters.setFlashMode(options[i]);
+                        mCamera.setParameters(parameters);
+                        break;
+                    case R.id.color_efects:
+                        parameters.setColorEffect(options[i]);
+                        mCamera.setParameters(parameters);
+                        break;
+                }
+
+
                 dialogInterface.dismiss();
             }
         });
