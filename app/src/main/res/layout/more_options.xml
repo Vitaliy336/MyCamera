@@ -2,42 +2,49 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/flash_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_all_out_black_24dp" />
+        app:srcCompat="@drawable/ic_highlight_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_camera_black_24dp" />
+        app:srcCompat="@drawable/ic_timer_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
-        android:id="@+id/imageButton5"
+        android:id="@+id/color_efects"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_camera_black_24dp" />
+        app:srcCompat="@drawable/ic_color_lens_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
         android:id="@+id/imageButton6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_camera_black_24dp" />
+        app:srcCompat="@drawable/ic_camera_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
         android:id="@+id/imageButton7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_all_out_black_24dp" />
+        app:srcCompat="@drawable/ic_all_out_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
+
 </LinearLayout>

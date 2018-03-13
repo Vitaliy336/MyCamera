@@ -1,30 +1,31 @@
 package com.example.v_shevchyk.mycamera.Camera;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
-import java.io.File;
+import java.util.List;
 
 public class CameraActivity extends AppCompatActivity implements CameraContract.ICameraView{
     private Camera mCamera;
@@ -36,6 +37,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     private FloatingActionButton pictureBtn, galery, settings;;
     private CameraPresenter presenter;
     private ResizeModule resizeModule;
+    private ImageButton flashLight, timer, colorEfects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +67,9 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
             mPreview.getHolder().removeCallback(mPreview);
             mCamera.release();
             mCamera = null;
+
         }
         presenter.updateGalery();
-        Log.e("sss", "onPause");
     }
 
     private void initPresenter() {
@@ -76,15 +78,24 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     private void initListener() {
+        flashLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                optionsDialog(parameters.getSupportedFlashModes());
+            }
+        });
+
+        colorEfects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //optionsDialog(parameters.getSupportedColorEffects());
+            }
+        });
+
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 presenter.settingsClick(settingsLayout.getVisibility());
-//                if(settingsLayout.getVisibility() == View.INVISIBLE){
-//                    settingsLayout.setVisibility(View.VISIBLE);
-//                } else {
-//                    settingsLayout.setVisibility(View.INVISIBLE);
-//                }
             }
         });
 
@@ -141,6 +152,9 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         mPreview = new CameraPreview(this, mCamera);
 
         zoom.setMax(parameters.getMaxZoom());
+
+        colorEfects = settingsLayout.findViewById(R.id.color_efects);
+        flashLight = settingsLayout.findViewById(R.id.flash_light);
     }
 
     private void checkOrientation(Camera.Parameters p) { //magic
@@ -215,5 +229,24 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 
     private void setDisplayOrientation(){
         presenter.setDisplayOrientation(this.getResources().getConfiguration().orientation);
+    }
+
+
+    private void optionsDialog(List<String> posibleOptions){
+        final String [] options = posibleOptions.toArray(new String[posibleOptions.size()]);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
+        mBuilder.setTitle("Choose an item");
+        mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                parameters.setFlashMode(options[i]);
+                mCamera.setParameters(parameters);
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mBuilder.create();
+        mDialog.show();
+
     }
 }

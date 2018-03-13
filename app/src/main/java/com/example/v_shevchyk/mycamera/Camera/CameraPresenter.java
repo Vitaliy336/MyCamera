@@ -70,7 +70,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     }
 
     @Override
-    public void settingsClick(int visibility) {
+    public void settingsClick(int visibility) { //Visible 0, Invisible 4
         if (visibility == 4){
             view.showSettings();
         } else {
