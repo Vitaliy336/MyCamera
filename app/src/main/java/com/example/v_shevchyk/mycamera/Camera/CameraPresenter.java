@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public class CameraPresenter implements CameraContract.ICameraPresenter {
     private CameraContract.ICameraView view;
-    private int displayOrientation = 1;
 
     @Override
     public void attachView(CameraContract.ICameraView view) {
@@ -52,11 +51,6 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
             }
         };
         view.takePicture(callback);
-    }
-
-    @Override
-    public void setDisplayOrientation(int displayOrientation) {
-        this.displayOrientation = displayOrientation;
     }
 
     @Override

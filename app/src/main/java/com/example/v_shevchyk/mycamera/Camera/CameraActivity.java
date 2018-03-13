@@ -252,15 +252,10 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         optionsDialog(parameters.getSupportedSceneModes(), sceneMode.getId());
     }
 
-    private void setDisplayOrientation(){
-        presenter.setDisplayOrientation(this.getResources().getConfiguration().orientation);
-    }
-
-
     private void optionsDialog(List<String> posibleOptions, final int id){
         final String [] options = posibleOptions.toArray(new String[posibleOptions.size()]);
         final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
-        mBuilder.setTitle("Choose an item");
+        mBuilder.setTitle(R.string.option);
         mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

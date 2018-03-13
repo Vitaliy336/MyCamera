@@ -37,8 +37,6 @@ public class CameraContract {
 
         void savePicture();
 
-        void setDisplayOrientation(int displayOrientation);
-
         void updateGalery();
 
         void galeryClick();
