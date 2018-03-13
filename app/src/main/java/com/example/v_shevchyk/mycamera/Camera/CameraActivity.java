@@ -19,7 +19,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
@@ -37,7 +36,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     private FloatingActionButton pictureBtn, galery, settings;;
     private CameraPresenter presenter;
     private ResizeModule resizeModule;
-    private ImageButton flashLight, timer, colorEfects;
+    private ImageButton flashLight, timer, colorEfects, whitelvl, sceneMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +77,31 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     private void initListener() {
+        sceneMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.clickSceneMode();
+            }
+        });
+
+        whitelvl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.clickWhiteLvl();
+            }
+        });
+
         flashLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                optionsDialog(parameters.getSupportedFlashModes(), flashLight.getId());
+                presenter.clickFlashLight();
             }
         });
 
         colorEfects.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                optionsDialog(parameters.getSupportedColorEffects(), colorEfects.getId());
+                presenter.clickColor();
             }
         });
 
@@ -155,6 +168,8 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 
         colorEfects = settingsLayout.findViewById(R.id.color_efects);
         flashLight = settingsLayout.findViewById(R.id.flash_light);
+        whitelvl = settingsLayout.findViewById(R.id.white_level);
+        sceneMode = settingsLayout.findViewById(R.id.scene);
     }
 
     private void checkOrientation(Camera.Parameters p) { //magic
@@ -187,7 +202,6 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     public void takePicture(Camera.PictureCallback callback) {
         mCamera.takePicture(null, null, callback);
         presenter.updateGalery();
-
     }
 
     @Override
@@ -227,6 +241,26 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         settingsLayout.setVisibility(View.INVISIBLE);
     }
 
+    @Override
+    public void aplyColor() {
+        optionsDialog(parameters.getSupportedColorEffects(), colorEfects.getId());
+    }
+
+    @Override
+    public void aplyFlashLight() {
+        optionsDialog(parameters.getSupportedFlashModes(), flashLight.getId());
+    }
+
+    @Override
+    public void applyWhiteLvl() {
+        optionsDialog(parameters.getSupportedWhiteBalance(), whitelvl.getId());
+    }
+
+    @Override
+    public void applySceneMode() {
+        optionsDialog(parameters.getSupportedSceneModes(), sceneMode.getId());
+    }
+
     private void setDisplayOrientation(){
         presenter.setDisplayOrientation(this.getResources().getConfiguration().orientation);
     }
@@ -248,9 +282,15 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
                         parameters.setColorEffect(options[i]);
                         mCamera.setParameters(parameters);
                         break;
+                    case R.id.white_level:
+                        parameters.setWhiteBalance(options[i]);
+                        mCamera.setParameters(parameters);
+                        break;
+                    case R.id.scene:
+                        parameters.setSceneMode(options[i]);
+                        mCamera.setParameters(parameters);
+                        break;
                 }
-
-
                 dialogInterface.dismiss();
             }
         });

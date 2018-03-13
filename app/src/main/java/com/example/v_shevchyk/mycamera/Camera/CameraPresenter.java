@@ -79,5 +79,25 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
 
     }
 
+    @Override
+    public void clickColor() {
+        view.aplyColor();
+    }
+
+    @Override
+    public void clickFlashLight() {
+        view.aplyFlashLight();
+    }
+
+    @Override
+    public void clickWhiteLvl() {
+        view.applyWhiteLvl();
+    }
+
+    @Override
+    public void clickSceneMode() {
+        view.applySceneMode();
+    }
+
 
 }

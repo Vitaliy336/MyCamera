@@ -21,6 +21,14 @@ public class CameraContract {
         void showSettings();
 
         void hideSettings();
+
+        void aplyColor();
+
+        void aplyFlashLight();
+
+        void applyWhiteLvl();
+
+        void applySceneMode();
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
@@ -36,5 +44,13 @@ public class CameraContract {
         void galeryClick();
 
         void settingsClick(int visibility);
+
+        void clickColor();
+
+        void clickFlashLight();
+
+        void clickWhiteLvl();
+
+        void clickSceneMode();
     }
 }

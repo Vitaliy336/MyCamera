@@ -32,15 +32,15 @@
         tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
-        android:id="@+id/imageButton6"
+        android:id="@+id/white_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        app:srcCompat="@drawable/ic_camera_black_24dp"
+        app:srcCompat="@drawable/ic_layers_black_24dp"
         tools:ignore="VectorDrawableCompat" />
 
     <ImageButton
-        android:id="@+id/imageButton7"
+        android:id="@+id/scene"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
