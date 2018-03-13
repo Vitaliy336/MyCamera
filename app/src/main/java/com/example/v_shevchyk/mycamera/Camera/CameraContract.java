@@ -14,7 +14,13 @@ public class CameraContract {
 
         void fitPreview();
 
+        void showGalery();
+
         void updateGaleryBroadcast();
+
+        void showSettings();
+
+        void hideSettings();
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
@@ -26,5 +32,9 @@ public class CameraContract {
         void setDisplayOrientation(int displayOrientation);
 
         void updateGalery();
+
+        void galeryClick();
+
+        void settingsClick(int visibility);
     }
 }

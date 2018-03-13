@@ -12,10 +12,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
@@ -27,10 +29,11 @@ import java.io.File;
 public class CameraActivity extends AppCompatActivity implements CameraContract.ICameraView{
     private Camera mCamera;
     private SeekBar zoom;
+    private LinearLayout settingsLayout;
     private Camera.Parameters parameters;
     private FrameLayout preview;
     private CameraPreview mPreview;
-    private FloatingActionButton pictureBtn, galery;;
+    private FloatingActionButton pictureBtn, galery, settings;;
     private CameraPresenter presenter;
     private ResizeModule resizeModule;
 
@@ -73,6 +76,18 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     private void initListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.settingsClick(settingsLayout.getVisibility());
+//                if(settingsLayout.getVisibility() == View.INVISIBLE){
+//                    settingsLayout.setVisibility(View.VISIBLE);
+//                } else {
+//                    settingsLayout.setVisibility(View.INVISIBLE);
+//                }
+            }
+        });
+
         zoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -103,21 +118,18 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         galery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setAction(android.content.Intent.ACTION_VIEW);
-                intent.setType("image/*");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
+                presenter.galeryClick();
             }
         });
     }
 
     private void initView() {
         mCamera = getCameraInstance();
+        settingsLayout = findViewById(R.id.settingslayout);
         parameters = mCamera.getParameters();
         preview = findViewById(R.id.preview);
         galery = findViewById(R.id.gal);
+        settings = findViewById(R.id.settings);
         zoom = findViewById(R.id.zoom);
         pictureBtn = findViewById(R.id.picture_btn);
 
@@ -176,10 +188,29 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
     }
 
     @Override
+    public void showGalery() {
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setType("image/*");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
     public void updateGaleryBroadcast() {
         sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update galery after take a photo
                 Uri.parse("file://"
                         + Environment.getExternalStorageDirectory())));
+    }
+
+    @Override
+    public void showSettings() {
+        settingsLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSettings() {
+        settingsLayout.setVisibility(View.INVISIBLE);
     }
 
     private void setDisplayOrientation(){

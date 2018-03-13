@@ -64,5 +64,20 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         view.updateGaleryBroadcast();
     }
 
+    @Override
+    public void galeryClick() {
+        view.showGalery();
+    }
+
+    @Override
+    public void settingsClick(int visibility) {
+        if (visibility == 4){
+            view.showSettings();
+        } else {
+            view.hideSettings();
+        }
+
+    }
+
 
 }
