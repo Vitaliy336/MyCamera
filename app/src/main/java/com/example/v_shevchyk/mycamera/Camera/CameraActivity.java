@@ -8,6 +8,7 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,12 +20,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CameraActivity extends AppCompatActivity implements CameraContract.ICameraView{
     private Camera mCamera;
@@ -103,6 +108,9 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
                     case R.id.picture_btn:
                         presenter.savePicture();
                         break;
+                    case R.id.timer:
+                        presenter.timerClick();
+                        break;
                 }
             }
         };
@@ -111,7 +119,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         galery.setOnClickListener(handler);
         settings.setOnClickListener(handler);
         flashLight.setOnClickListener(handler);
-//        timer.setOnClickListener(handler);
+        timer.setOnClickListener(handler);
         colorEfects.setOnClickListener(handler);
         whitelvl.setOnClickListener(handler);
         sceneMode.setOnClickListener(handler);
@@ -162,6 +170,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         flashLight = settingsLayout.findViewById(R.id.flash_light);
         whitelvl = settingsLayout.findViewById(R.id.white_level);
         sceneMode = settingsLayout.findViewById(R.id.scene);
+        timer = settingsLayout.findViewById(R.id.timer);
     }
 
     private void checkOrientation(Camera.Parameters p) { //magic
@@ -218,7 +227,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
 
     @Override
     public void updateGaleryBroadcast() {
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update galery after take a photo
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update gallery after take a photo
                 Uri.parse("file://"
                         + Environment.getExternalStorageDirectory())));
     }
@@ -253,6 +262,12 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         optionsDialog(parameters.getSupportedSceneModes(), sceneMode.getId());
     }
 
+    @Override
+    public void applyTimer() {
+        String[] sec = {"3", "5", "7"};
+        optionsDialog(Arrays.asList(sec), timer.getId());
+    }
+
     private void optionsDialog(List<String> posibleOptions, final int id){
         final String [] options = posibleOptions.toArray(new String[posibleOptions.size()]);
         final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
@@ -276,6 +291,22 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
                     case R.id.scene:
                         parameters.setSceneMode(options[i]);
                         mCamera.setParameters(parameters);
+                        break;
+                    case R.id.timer:
+                        final Handler handler = new Handler();
+                        Timer timer = new Timer(false);
+                        TimerTask timerTask = new TimerTask() {
+                            @Override
+                            public void run() {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "BOO", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        };
+                        timer.schedule(timerTask, Integer.parseInt(options[i])*1000);
                         break;
                 }
                 dialogInterface.dismiss();

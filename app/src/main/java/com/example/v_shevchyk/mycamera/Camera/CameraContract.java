@@ -29,6 +29,8 @@ public class CameraContract {
         void applyWhiteLvl();
 
         void applySceneMode();
+
+        void applyTimer();
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
@@ -50,5 +52,7 @@ public class CameraContract {
         void clickWhiteLvl();
 
         void clickSceneMode();
+
+        void timerClick();
     }
 }

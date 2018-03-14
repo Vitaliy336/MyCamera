@@ -93,5 +93,10 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         view.applySceneMode();
     }
 
+    @Override
+    public void timerClick() {
+        view.applyTimer();
+    }
+
 
 }
