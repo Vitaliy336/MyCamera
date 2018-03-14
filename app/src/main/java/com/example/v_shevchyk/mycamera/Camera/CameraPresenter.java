@@ -33,7 +33,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
                 File saveDir = new File("/sdcard/MyFolder/");
-                if(!saveDir.exists()){
+                if (!saveDir.exists()) {
                     saveDir.mkdir();
                 }
 
@@ -65,7 +65,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
 
     @Override
     public void settingsClick(int visibility) { //Visible 0, Invisible 4
-        if (visibility == 4){
+        if (visibility == 4) {
             view.showSettings();
         } else {
             view.hideSettings();

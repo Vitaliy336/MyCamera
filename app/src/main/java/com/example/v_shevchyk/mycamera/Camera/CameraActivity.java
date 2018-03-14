@@ -137,6 +137,7 @@ public class CameraActivity extends AppCompatActivity implements CameraContract.
         });
     }
 
+
     private void initView() {
 
         mCamera = getCameraInstance();
