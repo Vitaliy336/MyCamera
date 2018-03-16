@@ -17,7 +17,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
 
     @Override
     public void detachView() {
-
+        view = null;
     }
 
 
