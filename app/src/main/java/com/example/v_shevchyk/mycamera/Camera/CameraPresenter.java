@@ -1,8 +1,7 @@
 package com.example.v_shevchyk.mycamera.Camera;
 
 import android.hardware.Camera;
-
-import com.example.v_shevchyk.mycamera.ResizeModule;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,8 +13,6 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     private CameraContract.ICameraView view;
     private final int maxZomm;
     private MyCamera camera;
-    private int zoom;
-
 
     public CameraPresenter(MyCamera myCamera, int orientation) {
         this.camera = myCamera;
@@ -45,7 +42,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
 
     @Override
     public void galeryClick() {
-        view.openGalery();
+        view.goToGallery();
     }
 
     @Override
@@ -84,14 +81,31 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     }
 
     @Override
-    public void uplyZoom() {
-        camera.applyParameters(zoom);
+    public void uplyZoom(int i) {
+        camera.applyZoom(i);
     }
 
     @Override
     public void resizePreview() {
         view.fitPreview(camera.cameraFitPreviewSize());
     }
+
+    @Override
+    public void clikWhitelvl() {
+        view.whiteLvl(convert(camera.cameraGetWhiteParams()));
+
+    }
+
+    @Override
+    public void clickScene() {
+        view.scenes(convert(camera.cameraGetSceneParams()));
+    }
+
+    @Override
+    public void clickColor() {
+        view.colorEfects(convert(camera.cameraGetColorParams()));
+    }
+
 
 
     private String[] convert(List<String> list){
@@ -103,7 +117,5 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         return maxZomm;
     }
 
-    public void setZoomLvl(int zoomLvl){
-        this.zoom = zoomLvl;
-    }
+
 }

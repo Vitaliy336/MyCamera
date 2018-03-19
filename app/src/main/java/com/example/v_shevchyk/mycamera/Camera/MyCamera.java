@@ -24,7 +24,13 @@ public class MyCamera implements CameraContract.ICameraListener {
         this.mContext = context;
         mCamera = getCameraInstance();
         parameters = mCamera.getParameters();
+        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        applyParameters(parameters);
         this.display = defaultDisplay;
+    }
+
+    private void applyParameters(Camera.Parameters parameters) {
+        mCamera.setParameters(parameters);
     }
 
 
@@ -55,12 +61,12 @@ public class MyCamera implements CameraContract.ICameraListener {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             parameters.set("orientation", "landscape");
             parameters.set("rotation", 90);
-            mCamera.setParameters(parameters);
+            applyParameters(parameters);
         }
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             parameters.set("orientation", "portrait");
             parameters.set("rotation", 90);
-            mCamera.setParameters(parameters);
+            applyParameters(parameters);
         }
     }
 
@@ -105,9 +111,33 @@ public class MyCamera implements CameraContract.ICameraListener {
     }
 
     @Override
-    public void applyParameters(int zoom) {
+    public void applyZoom(int zoom) {
         parameters.setZoom(zoom);
+        applyParameters(parameters);
+    }
+
+    @Override
+    public void applyScene(String scene) {
+        parameters.setSceneMode(scene);
+        applyParameters(parameters);
+    }
+
+    @Override
+    public void applyWhite(String white) {
+        parameters.setWhiteBalance(white);
+        applyParameters(parameters);
+    }
+
+    @Override
+    public void applyColors(String colors) {
+        parameters.setColorEffect(colors);
         mCamera.setParameters(parameters);
+    }
+
+    @Override
+    public void applyFlashLight(String flasLIght) {
+        parameters.setFlashMode(flasLIght);
+        applyParameters(parameters);
     }
 
     public static Camera getCameraInstance() {

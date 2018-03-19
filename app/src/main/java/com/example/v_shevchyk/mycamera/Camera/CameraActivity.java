@@ -2,13 +2,11 @@ package com.example.v_shevchyk.mycamera.Camera;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 

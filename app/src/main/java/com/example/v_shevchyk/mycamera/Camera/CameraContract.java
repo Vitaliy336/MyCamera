@@ -15,8 +15,6 @@ public class CameraContract {
     public interface ICameraView extends BaseView {
         void startPreview(CameraPreview cp);
 
-        void openGalery();
-
         void showSettings();
 
         void hideSettings();
@@ -24,6 +22,14 @@ public class CameraContract {
         void flasLight(String[] modes);
 
         void fitPreview(ResizeModule resizeModule);
+
+        void goToGallery();
+
+        void colorEfects(String[] efects);
+
+        void whiteLvl(String[] lvl);
+
+        void scenes(String[] scenes);
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
@@ -37,9 +43,15 @@ public class CameraContract {
 
         void savePicture();
 
-        void uplyZoom();
+        void uplyZoom(int i);
 
         void resizePreview();
+
+        void clikWhitelvl();
+
+        void clickScene();
+
+        void clickColor();
     }
 
     public interface ICameraListener {
@@ -66,6 +78,12 @@ public class CameraContract {
 
         int getMaxZoomSupported();
 
-        void applyParameters(int zoom);
+        void applyZoom(int zoom);
+
+        void applyScene(String scene);
+        void applyWhite(String white);
+        void applyColors(String colors);
+        void applyFlashLight(String flasLIght);
+
     }
 }

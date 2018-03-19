@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -14,10 +15,6 @@ import android.widget.SeekBar;
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
 import com.example.v_shevchyk.mycamera.ResizeModule;
-
-/**
- * Created by v_shevchyk on 15.03.18.
- */
 
 public class CameraViews implements View.OnClickListener, CameraContract.ICameraView, SeekBar.OnSeekBarChangeListener {
 
@@ -77,8 +74,10 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             case R.id.timer:
                 break;
             case R.id.white_level:
+                presenter.clikWhitelvl();
                 break;
             case R.id.scene:
+                presenter.clickScene();
                 break;
             case R.id.settings:
                 presenter.settingsClick(settingsLayout.getVisibility());
@@ -87,9 +86,10 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 presenter.savePicture();
                 break;
             case R.id.color_efects:
+                presenter.clickColor();
                 break;
             case R.id.gal:
-                goToGallery();
+                presenter.galeryClick();
                 break;
         }
     }
@@ -100,10 +100,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         preview.addView(cp);
     }
 
-    @Override
-    public void openGalery() {
-
-    }
 
     @Override
     public void showSettings() {
@@ -117,7 +113,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
     @Override
     public void flasLight(String[] modes) {
-        buildDialog(modes);
+        buildDialog(modes, sceneMode.getId());
     }
 
     @Override
@@ -128,8 +124,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        presenter.setZoomLvl(i);
-        presenter.uplyZoom();
+        presenter.uplyZoom(i);
     }
 
     @Override
@@ -140,12 +135,28 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     public void onStopTrackingTouch(SeekBar seekBar) {
     }
 
-    private void buildDialog(String[] options){
+    private void buildDialog(final String[] options, final int id){
         final AlertDialog.Builder mBuilder = new AlertDialog.Builder(activity);
         mBuilder.setTitle(R.string.option);
         mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                switch (id){
+                    case R.id.flash_light:
+                        Log.e("TAG", options[i]);
+                        break;
+                    case R.id.timer:
+                        break;
+                    case R.id.white_level:
+                        Log.e("TAG", options[i]);
+                        break;
+                    case R.id.scene:
+                        Log.e("TAG", options[i]);
+                        break;
+                    case R.id.color_efects:
+                        Log.e("TAG", options[i]);
+                        break;
+                }
                 dialogInterface.dismiss();
             }
         });
@@ -153,12 +164,27 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
-
-    private void goToGallery(){
+    @Override
+    public void goToGallery(){
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_VIEW);
         intent.setType("image/*");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
+    }
+
+    @Override
+    public void colorEfects(String[] efects) {
+        buildDialog(efects, colorEfects.getId());
+    }
+
+    @Override
+    public void whiteLvl(String[] lvl) {
+        buildDialog(lvl, whitelvl.getId());
+    }
+
+    @Override
+    public void scenes(String[] scenes) {
+        buildDialog(scenes, sceneMode.getId());
     }
 }
