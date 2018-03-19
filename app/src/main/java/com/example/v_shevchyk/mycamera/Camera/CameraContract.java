@@ -9,6 +9,7 @@ import com.example.v_shevchyk.mycamera.ResizeModule;
 import com.example.v_shevchyk.mycamera.base.BasePresenter;
 import com.example.v_shevchyk.mycamera.base.BaseView;
 
+import java.security.Policy;
 import java.util.List;
 
 
@@ -16,10 +17,31 @@ public class CameraContract {
 
     public interface ICameraView extends BaseView {
         void startPreview(CameraPreview cp);
+
+        void openGalery();
+
+        void showSettings();
+
+        void hideSettings();
+
+        void takePicture();
+
+        void flasLight(String[] modes);
+
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
         void createPreview();
+
+        void clickFlashlight();
+
+        void galeryClick();
+
+        void settingsClick(int visibility);
+
+        void savePicture();
+
+        void uplyZoom();
     }
 
     public interface ICameraListener {
@@ -42,5 +64,8 @@ public class CameraContract {
 
         List<String> cameraGetFlashLightParams();
 
+        int getMaxZoomSupported();
+
+        void applyParameters(int zoom);
     }
 }

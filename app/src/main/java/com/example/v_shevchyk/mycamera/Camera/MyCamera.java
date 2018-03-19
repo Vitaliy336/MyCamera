@@ -8,6 +8,7 @@ import android.view.Display;
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyCamera implements CameraContract.ICameraListener {
@@ -20,6 +21,7 @@ public class MyCamera implements CameraContract.ICameraListener {
     public MyCamera(Context context) {
         this.mContext = context;
         mCamera = getCameraInstance();
+        parameters = mCamera.getParameters();
     }
 
 
@@ -82,6 +84,21 @@ public class MyCamera implements CameraContract.ICameraListener {
     @Override
     public List<String> cameraGetFlashLightParams() {
         return parameters.getSupportedFlashModes();
+    }
+
+    @Override
+    public int getMaxZoomSupported() {
+        if (mCamera.getParameters().isZoomSupported()) {
+            return parameters.getMaxZoom();
+        } else{
+            return 0;
+        }
+    }
+
+    @Override
+    public void applyParameters(int zoom) {
+        parameters.setZoom(zoom);
+        mCamera.setParameters(parameters);
     }
 
     public static Camera getCameraInstance() {

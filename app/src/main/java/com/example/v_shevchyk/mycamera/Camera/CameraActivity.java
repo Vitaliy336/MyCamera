@@ -1,19 +1,17 @@
 package com.example.v_shevchyk.mycamera.Camera;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 
 import com.example.v_shevchyk.mycamera.R;
-
-import java.util.List;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -34,12 +32,8 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        myCamera = new MyCamera(this);
-        Log.e("camera", myCamera.toString());
-        presenter = new CameraPresenter(myCamera);
-        Log.e("presenter", presenter.toString());
-        views = new CameraViews(this, presenter);
-        Log.e("presenter", presenter.toString());
+        init();
+        updateGaleryBroadcast();
 
     }
 
@@ -47,12 +41,8 @@ public class CameraActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         myCamera.releaseCamera();
+        updateGaleryBroadcast();
     }
-
-    private void initListener() {
-
-    }
-
 
 //        zoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 //            @Override
@@ -74,7 +64,13 @@ public class CameraActivity extends AppCompatActivity {
 //            }
 //        });
 
-    private void initView() {
+    private void init() {
+        myCamera = new MyCamera(this);
+        Log.e("camera", myCamera.toString());
+        presenter = new CameraPresenter(myCamera);
+        Log.e("presenter", presenter.toString());
+        views = new CameraViews(this, presenter);
+        Log.e("presenter", presenter.toString());
 
         Display display = getWindowManager().getDefaultDisplay();
 
@@ -89,28 +85,10 @@ public class CameraActivity extends AppCompatActivity {
 //        startActivity(intent);
 //    }
 
-//    public void updateGaleryBroadcast() {
-//        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update gallery after take a photo
-//                Uri.parse("file://"
-//                        + Environment.getExternalStorageDirectory())));
-//    }
+    public void updateGaleryBroadcast() {
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update gallery after take a photo
+                Uri.parse("file://"
+                        + Environment.getExternalStorageDirectory())));
+    }
 
-
-//
-//    private void optionsDialog(List<String> posibleOptions, final int id){
-//        final String [] options = posibleOptions.toArray(new String[posibleOptions.size()]);
-//        final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
-//        mBuilder.setTitle(R.string.option);
-//        mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                dialogInterface.dismiss();
-//            }
-//        });
-//
-//        AlertDialog mDialog = mBuilder.create();
-//        mDialog.show();
-//
-//    }
 }
