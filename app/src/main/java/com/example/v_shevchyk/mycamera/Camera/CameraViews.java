@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -26,7 +25,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private ImageButton flashLight, timer, colorEfects, whitelvl, sceneMode;
     private CameraPresenter presenter;
 
-
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
         this.presenter = presenter;
@@ -36,7 +34,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         presenter.createPreview();
         presenter.resizePreview();
     }
-
 
     private void initViews() {
         zoom = activity.findViewById(R.id.zoom);
@@ -94,7 +91,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         }
     }
 
-
     @Override
     public void startPreview(CameraPreview cp) {
         preview.addView(cp);
@@ -118,8 +114,8 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
     @Override
     public void fitPreview(ResizeModule resizeModule) {
-        preview.getLayoutParams().height = (int)(resizeModule.calculate(true).bottom);
-        preview.getLayoutParams().width = (int)(resizeModule.calculate(true).right);
+        preview.getLayoutParams().height = (int) (resizeModule.calculate(true).bottom);
+        preview.getLayoutParams().width = (int) (resizeModule.calculate(true).right);
     }
 
     @Override
@@ -135,13 +131,13 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     public void onStopTrackingTouch(SeekBar seekBar) {
     }
 
-    private void buildDialog(final String[] options, final int id){
+    private void buildDialog(final String[] options, final int id) {
         final AlertDialog.Builder mBuilder = new AlertDialog.Builder(activity);
         mBuilder.setTitle(R.string.option);
         mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                switch (id){
+                switch (id) {
                     case R.id.flash_light:
                         presenter.flash(options[i]);
                         break;
@@ -164,8 +160,9 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
     }
+
     @Override
-    public void goToGallery(){
+    public void goToGallery() {
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_VIEW);
         intent.setType("image/*");

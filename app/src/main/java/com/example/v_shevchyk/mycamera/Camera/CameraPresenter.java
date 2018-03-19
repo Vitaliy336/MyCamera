@@ -1,7 +1,6 @@
 package com.example.v_shevchyk.mycamera.Camera;
 
 import android.hardware.Camera;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +12,8 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     private CameraContract.ICameraView view;
     private final int maxZomm;
     private MyCamera camera;
+    private static final String DIR_PATH = "/sdcard/MyFolder/";
+    private static final String IMAGE_PATH = "/sdcard/MyFolder/%d.jpg";
 
     public CameraPresenter(MyCamera myCamera, int orientation) {
         this.camera = myCamera;
@@ -59,13 +60,13 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         Camera.PictureCallback callback = new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
-                File saveDir = new File("/sdcard/MyFolder/");
+                File saveDir = new File(DIR_PATH);
                 if (!saveDir.exists()) {
                     saveDir.mkdir();
                 }
 
                 try {
-                    FileOutputStream os = new FileOutputStream(String.format("/sdcard/MyFolder/%d.jpg",
+                    FileOutputStream os = new FileOutputStream(String.format(IMAGE_PATH,
                             System.currentTimeMillis()));
                     os.write(bytes);
                     os.close();

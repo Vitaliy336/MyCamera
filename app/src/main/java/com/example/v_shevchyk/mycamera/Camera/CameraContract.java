@@ -74,8 +74,6 @@ public class CameraContract {
 
         void cameraSetOrientation(int orientation);
 
-        void cameraGetTimerParams();
-
         List<String> cameraGetSceneParams();
 
         List<String> cameraGetWhiteParams();
@@ -89,8 +87,11 @@ public class CameraContract {
         void applyZoom(int zoom);
 
         void applyScene(String scene);
+
         void applyWhite(String white);
+
         void applyColors(String colors);
+
         void applyFlashLight(String flasLIght);
 
     }

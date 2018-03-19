@@ -9,7 +9,6 @@ import android.view.Display;
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyCamera implements CameraContract.ICameraListener {
@@ -74,11 +73,6 @@ public class MyCamera implements CameraContract.ICameraListener {
     public ResizeModule cameraFitPreviewSize() {
         resizeModule = new ResizeModule(display, mCamera);
         return resizeModule;
-    }
-
-    @Override
-    public void cameraGetTimerParams() {
-
     }
 
     @Override

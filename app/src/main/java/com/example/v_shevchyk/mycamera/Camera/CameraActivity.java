@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -25,7 +24,6 @@ public class CameraActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
     }
 
     @Override
@@ -33,7 +31,6 @@ public class CameraActivity extends AppCompatActivity {
         super.onResume();
         init();
         updateGaleryBroadcast();
-
     }
 
     @Override
@@ -45,17 +42,9 @@ public class CameraActivity extends AppCompatActivity {
 
     private void init() {
         myCamera = new MyCamera(this, getWindowManager().getDefaultDisplay());
-        Log.e("camera", myCamera.toString());
         presenter = new CameraPresenter(myCamera, getResources().getConfiguration().orientation);
-        Log.e("presenter", presenter.toString());
         views = new CameraViews(this, presenter);
-        Log.e("presenter", presenter.toString());
-
     }
-
-
-//    public void showGalery() {
-//
 
     private void updateGaleryBroadcast() {
         sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
