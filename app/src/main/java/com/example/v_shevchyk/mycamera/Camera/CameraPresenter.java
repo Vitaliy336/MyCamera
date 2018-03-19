@@ -106,6 +106,25 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         view.colorEfects(convert(camera.cameraGetColorParams()));
     }
 
+    @Override
+    public void flash(String s) {
+        camera.applyFlashLight(s);
+    }
+
+    @Override
+    public void sceneMode(String mode) {
+        camera.applyScene(mode);
+    }
+
+    @Override
+    public void whiteLvl(String white) {
+        camera.applyWhite(white);
+    }
+
+    @Override
+    public void colorsOptions(String color) {
+        camera.applyColors(color);
+    }
 
 
     private String[] convert(List<String> list){

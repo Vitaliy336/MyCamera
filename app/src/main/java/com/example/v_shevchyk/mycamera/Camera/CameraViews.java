@@ -113,7 +113,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
     @Override
     public void flasLight(String[] modes) {
-        buildDialog(modes, sceneMode.getId());
+        buildDialog(modes, flashLight.getId());
     }
 
     @Override
@@ -143,18 +143,18 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (id){
                     case R.id.flash_light:
-                        Log.e("TAG", options[i]);
+                        presenter.flash(options[i]);
                         break;
                     case R.id.timer:
                         break;
                     case R.id.white_level:
-                        Log.e("TAG", options[i]);
+                        presenter.whiteLvl(options[i]);
                         break;
                     case R.id.scene:
-                        Log.e("TAG", options[i]);
+                        presenter.sceneMode(options[i]);
                         break;
                     case R.id.color_efects:
-                        Log.e("TAG", options[i]);
+                        presenter.colorsOptions(options[i]);
                         break;
                 }
                 dialogInterface.dismiss();

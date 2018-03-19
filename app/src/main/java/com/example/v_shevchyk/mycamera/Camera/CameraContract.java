@@ -52,6 +52,14 @@ public class CameraContract {
         void clickScene();
 
         void clickColor();
+
+        void flash(String s);
+
+        void sceneMode(String mode);
+
+        void whiteLvl(String white);
+
+        void colorsOptions(String color);
     }
 
     public interface ICameraListener {
