@@ -19,19 +19,14 @@ public class MyCamera implements CameraContract.ICameraListener {
 
     public MyCamera(Context context) {
         this.mContext = context;
-    }
-
-
-    @Override
-    public void initCamera() {
         mCamera = getCameraInstance();
-        parameters = mCamera.getParameters();
     }
+
 
     @Override
     public void releaseCamera() {
         if (mCamera != null) {
-            mPreview.getHolder().removeCallback(mPreview);
+            //mPreview.getHolder().removeCallback(mPreview);
             mCamera.release();
             mCamera = null;
         }

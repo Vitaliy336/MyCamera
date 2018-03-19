@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,7 +19,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private MyCamera myCamera;
     private CameraViews views;
-    private FrameLayout preivew;
+    private CameraPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +29,17 @@ public class CameraActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        myCamera = new MyCamera(CameraActivity.this);
-        views = new CameraViews(CameraActivity.this);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initView();
-        initListener();
-        initPresenter();
+        myCamera = new MyCamera(this);
+        Log.e("camera", myCamera.toString());
+        presenter = new CameraPresenter(myCamera);
+        Log.e("presenter", presenter.toString());
+        views = new CameraViews(this, presenter);
+        Log.e("presenter", presenter.toString());
 
     }
 
@@ -46,9 +47,6 @@ public class CameraActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         myCamera.releaseCamera();
-    }
-
-    private void initPresenter() {
     }
 
     private void initListener() {
@@ -78,12 +76,8 @@ public class CameraActivity extends AppCompatActivity {
 
     private void initView() {
 
-        myCamera.initCamera();
-        preivew = findViewById(R.id.preview);
-        views.getPreview().addView(myCamera.cameraStartPreview());
         Display display = getWindowManager().getDefaultDisplay();
 
-        views.getSettings();
     }
 
 
@@ -102,21 +96,21 @@ public class CameraActivity extends AppCompatActivity {
 //    }
 
 
-
-    private void optionsDialog(List<String> posibleOptions, final int id){
-        final String [] options = posibleOptions.toArray(new String[posibleOptions.size()]);
-        final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
-        mBuilder.setTitle(R.string.option);
-        mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                dialogInterface.dismiss();
-            }
-        });
-
-        AlertDialog mDialog = mBuilder.create();
-        mDialog.show();
-
-    }
+//
+//    private void optionsDialog(List<String> posibleOptions, final int id){
+//        final String [] options = posibleOptions.toArray(new String[posibleOptions.size()]);
+//        final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this);
+//        mBuilder.setTitle(R.string.option);
+//        mBuilder.setSingleChoiceItems(options, -1, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                dialogInterface.dismiss();
+//            }
+//        });
+//
+//        AlertDialog mDialog = mBuilder.create();
+//        mDialog.show();
+//
+//    }
 }

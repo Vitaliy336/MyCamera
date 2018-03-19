@@ -9,6 +9,11 @@ import java.io.IOException;
 
 public class CameraPresenter implements CameraContract.ICameraPresenter {
     private CameraContract.ICameraView view;
+    MyCamera camera;
+
+    public CameraPresenter(MyCamera myCamera) {
+        this.camera = myCamera;
+    }
 
     @Override
     public void attachView(CameraContract.ICameraView view) {
@@ -18,6 +23,11 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     @Override
     public void detachView() {
         view = null;
+    }
+
+    @Override
+    public void createPreview() {
+        view.startPreview(camera.cameraStartPreview());
     }
 
 

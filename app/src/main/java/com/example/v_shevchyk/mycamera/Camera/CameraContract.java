@@ -13,16 +13,16 @@ import java.util.List;
 
 
 public class CameraContract {
-    public interface ICameraView extends BaseView {
 
+    public interface ICameraView extends BaseView {
+        void startPreview(CameraPreview cp);
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
-
+        void createPreview();
     }
 
     public interface ICameraListener {
-        void initCamera();
 
         void releaseCamera();
 

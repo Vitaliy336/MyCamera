@@ -11,13 +11,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
+import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
 
 /**
  * Created by v_shevchyk on 15.03.18.
  */
 
-public class CameraViews implements View.OnClickListener {
+public class CameraViews implements View.OnClickListener, CameraContract.ICameraView {
 
     private Activity activity;
     private FrameLayout preview;
@@ -25,12 +26,16 @@ public class CameraViews implements View.OnClickListener {
     private LinearLayout settingsLayout;
     private FloatingActionButton pictureBtn, galery, settings;
     private ImageButton flashLight, timer, colorEfects, whitelvl, sceneMode;
+    private CameraPresenter presenter;
 
 
-    public CameraViews(Activity activity) {
+    public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
+        this.presenter = presenter;
         initViews();
         initListeners();
+        presenter.attachView(this);
+        presenter.createPreview();
     }
 
 
@@ -46,6 +51,7 @@ public class CameraViews implements View.OnClickListener {
         sceneMode = activity.findViewById(R.id.scene);
         colorEfects = activity.findViewById(R.id.color_efects);
         preview = activity.findViewById(R.id.preview);
+
 
     }
 
@@ -80,5 +86,8 @@ public class CameraViews implements View.OnClickListener {
     }
 
 
-
+    @Override
+    public void startPreview(CameraPreview cp) {
+        preview.addView(cp);
+    }
 }
