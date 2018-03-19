@@ -1,15 +1,12 @@
 package com.example.v_shevchyk.mycamera.Camera;
 
 import android.hardware.Camera;
-import android.view.Display;
-import android.view.View;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 import com.example.v_shevchyk.mycamera.base.BasePresenter;
 import com.example.v_shevchyk.mycamera.base.BaseView;
 
-import java.security.Policy;
 import java.util.List;
 
 
@@ -24,10 +21,9 @@ public class CameraContract {
 
         void hideSettings();
 
-        void takePicture();
-
         void flasLight(String[] modes);
 
+        void fitPreview(ResizeModule resizeModule);
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
@@ -42,17 +38,21 @@ public class CameraContract {
         void savePicture();
 
         void uplyZoom();
+
+        void resizePreview();
     }
 
     public interface ICameraListener {
 
+        void takePicture(Camera.PictureCallback callback);
+
         void releaseCamera();
+
+        ResizeModule cameraFitPreviewSize();
 
         CameraPreview cameraStartPreview();
 
         void cameraSetOrientation(int orientation);
-
-        ResizeModule cameraFitPreviewSize(Display display);
 
         void cameraGetTimerParams();
 

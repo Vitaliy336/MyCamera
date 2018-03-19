@@ -2,6 +2,7 @@ package com.example.v_shevchyk.mycamera.Camera;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -44,49 +45,22 @@ public class CameraActivity extends AppCompatActivity {
         updateGaleryBroadcast();
     }
 
-//        zoom.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//                if(mCamera.getParameters().isZoomSupported()){
-//                    parameters.setZoom(i);
-//                    mCamera.setParameters(parameters);
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//        });
-
     private void init() {
-        myCamera = new MyCamera(this);
+        myCamera = new MyCamera(this, getWindowManager().getDefaultDisplay());
         Log.e("camera", myCamera.toString());
-        presenter = new CameraPresenter(myCamera);
+        presenter = new CameraPresenter(myCamera, getResources().getConfiguration().orientation);
         Log.e("presenter", presenter.toString());
         views = new CameraViews(this, presenter);
         Log.e("presenter", presenter.toString());
-
-        Display display = getWindowManager().getDefaultDisplay();
 
     }
 
 
 //    public void showGalery() {
-//        Intent intent = new Intent();
-//        intent.setAction(android.content.Intent.ACTION_VIEW);
-//        intent.setType("image/*");
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intent);
-//    }
+//
 
-    public void updateGaleryBroadcast() {
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, // update gallery after take a photo
+    private void updateGaleryBroadcast() {
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
                 Uri.parse("file://"
                         + Environment.getExternalStorageDirectory())));
     }

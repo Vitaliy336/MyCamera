@@ -3,6 +3,7 @@ package com.example.v_shevchyk.mycamera.Camera;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.Display;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
@@ -17,18 +18,26 @@ public class MyCamera implements CameraContract.ICameraListener {
     private Camera.Parameters parameters;
     private CameraPreview mPreview;
     private ResizeModule resizeModule;
+    Display display;
 
-    public MyCamera(Context context) {
+    public MyCamera(Context context, Display defaultDisplay) {
         this.mContext = context;
         mCamera = getCameraInstance();
         parameters = mCamera.getParameters();
+        this.display = defaultDisplay;
     }
 
 
     @Override
+    public void takePicture(Camera.PictureCallback callback) {
+        mCamera.takePicture(null,null, callback);
+        Log.e("TAG", "Picture taken");
+    }
+
+    @Override
     public void releaseCamera() {
         if (mCamera != null) {
-            //mPreview.getHolder().removeCallback(mPreview);
+            mPreview.getHolder().removeCallback(mPreview);
             mCamera.release();
             mCamera = null;
         }
@@ -56,7 +65,7 @@ public class MyCamera implements CameraContract.ICameraListener {
     }
 
     @Override
-    public ResizeModule cameraFitPreviewSize(Display display) {
+    public ResizeModule cameraFitPreviewSize() {
         resizeModule = new ResizeModule(display, mCamera);
         return resizeModule;
     }

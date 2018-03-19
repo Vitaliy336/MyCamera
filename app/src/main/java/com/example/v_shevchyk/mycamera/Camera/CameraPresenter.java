@@ -2,6 +2,8 @@ package com.example.v_shevchyk.mycamera.Camera;
 
 import android.hardware.Camera;
 
+import com.example.v_shevchyk.mycamera.ResizeModule;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,9 +17,10 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     private int zoom;
 
 
-    public CameraPresenter(MyCamera myCamera) {
+    public CameraPresenter(MyCamera myCamera, int orientation) {
         this.camera = myCamera;
         maxZomm = camera.getMaxZoomSupported();
+        camera.cameraSetOrientation(orientation);
     }
 
     @Override
@@ -56,7 +59,28 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
 
     @Override
     public void savePicture() {
+        Camera.PictureCallback callback = new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] bytes, Camera camera) {
+                File saveDir = new File("/sdcard/MyFolder/");
+                if (!saveDir.exists()) {
+                    saveDir.mkdir();
+                }
 
+                try {
+                    FileOutputStream os = new FileOutputStream(String.format("/sdcard/MyFolder/%d.jpg",
+                            System.currentTimeMillis()));
+                    os.write(bytes);
+                    os.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                camera.startPreview();
+            }
+        };
+        camera.takePicture(callback);
     }
 
     @Override
@@ -64,30 +88,11 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         camera.applyParameters(zoom);
     }
 
+    @Override
+    public void resizePreview() {
+        view.fitPreview(camera.cameraFitPreviewSize());
+    }
 
-//    public void savePicture() {
-//        Camera.PictureCallback callback = new Camera.PictureCallback() {
-//            @Override
-//            public void onPictureTaken(byte[] bytes, Camera camera) {
-//                File saveDir = new File("/sdcard/MyFolder/");
-//                if (!saveDir.exists()) {
-//                    saveDir.mkdir();
-//                }
-//
-//                try {
-//                    FileOutputStream os = new FileOutputStream(String.format("/sdcard/MyFolder/%d.jpg",
-//                            System.currentTimeMillis()));
-//                    os.write(bytes);
-//                    os.close();
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                camera.startPreview();
-//            }
-//        };
-//        view.takePicture(callback);
 
     private String[] convert(List<String> list){
         final String [] array = list.toArray(new String[list.size()]);

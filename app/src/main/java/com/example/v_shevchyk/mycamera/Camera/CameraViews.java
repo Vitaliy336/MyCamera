@@ -3,8 +3,8 @@ package com.example.v_shevchyk.mycamera.Camera;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -13,8 +13,7 @@ import android.widget.SeekBar;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
-
-import java.util.List;
+import com.example.v_shevchyk.mycamera.ResizeModule;
 
 /**
  * Created by v_shevchyk on 15.03.18.
@@ -38,6 +37,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         initListeners();
         presenter.attachView(this);
         presenter.createPreview();
+        presenter.resizePreview();
     }
 
 
@@ -84,10 +84,12 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 presenter.settingsClick(settingsLayout.getVisibility());
                 break;
             case R.id.picture_btn:
+                presenter.savePicture();
                 break;
             case R.id.color_efects:
                 break;
             case R.id.gal:
+                goToGallery();
                 break;
         }
     }
@@ -114,13 +116,14 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     }
 
     @Override
-    public void takePicture() {
-
+    public void flasLight(String[] modes) {
+        buildDialog(modes);
     }
 
     @Override
-    public void flasLight(String[] modes) {
-        buildDialog(modes);
+    public void fitPreview(ResizeModule resizeModule) {
+        preview.getLayoutParams().height = (int)(resizeModule.calculate(true).bottom);
+        preview.getLayoutParams().width = (int)(resizeModule.calculate(true).right);
     }
 
     @Override
@@ -149,5 +152,13 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
+    }
+
+    private void goToGallery(){
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setType("image/*");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
     }
 }
