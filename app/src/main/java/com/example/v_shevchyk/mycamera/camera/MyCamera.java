@@ -176,6 +176,23 @@ public class MyCamera implements CameraContract.ICameraListener {
         }
     }
 
+    @Override
+    public void startRecord() {
+        if(prepareVideoRecorder()){
+            mediaRecorder.start();
+        } else {
+            releaseVideoRecorder();
+        }
+    }
+
+    @Override
+    public void stopRecord() {
+        if(mediaRecorder != null){
+            mediaRecorder.stop();
+            releaseVideoRecorder();
+        }
+    }
+
     public static Camera getCameraInstance() {
         Camera c = null;
         try {

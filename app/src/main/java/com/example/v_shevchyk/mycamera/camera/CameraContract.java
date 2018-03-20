@@ -119,5 +119,9 @@ public class CameraContract {
         boolean prepareVideoRecorder();
 
         void releaseVideoRecorder();
+
+        void startRecord();
+
+        void stopRecord();
     }
 }
