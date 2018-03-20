@@ -45,6 +45,22 @@ public class CameraContract {
 
         void hideStopBtn();
 
+        void showSettingsBtn();
+
+        void hideSettingsBtn();
+
+        void showGaleryBtn();
+
+        void hideGaleryBtn();
+
+        void showSwitch();
+
+        void hideSwitch();
+
+        void showTimerBtn();
+
+        void hideTimerBtn();
+
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{

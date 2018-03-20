@@ -1,7 +1,6 @@
 package com.example.v_shevchyk.mycamera.camera;
 
 import android.hardware.Camera;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -136,25 +135,33 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     public void videoMode() {
         view.hideidePictureBtn();
         view.showVideoBtn();
+        view.hideTimerBtn();
     }
 
     @Override
     public void pictureMode() {
         view.hideVideoBtn();
         view.showPictureBtn();
+        view.showTimerBtn();
     }
 
     @Override
     public void startVideoClick() {
         view.hideVideoBtn();
         view.showStopBtn();
+        view.hideGaleryBtn();
+        view.hideSettingsBtn();
+        view.hideSwitch();
         camera.startRecord();
     }
 
     @Override
     public void stopVideoClick() {
-       view.hideStopBtn();
-       view.showVideoBtn();
+        view.hideStopBtn();
+        view.showVideoBtn();
+        view.showGaleryBtn();
+        view.showSettingsBtn();
+        view.showSwitch();
         camera.stopRecord();
     }
 
@@ -167,6 +174,4 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     public int getMaxZomm() {
         return maxZomm;
     }
-
-
 }

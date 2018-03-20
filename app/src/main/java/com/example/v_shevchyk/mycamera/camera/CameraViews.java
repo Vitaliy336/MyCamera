@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
@@ -84,10 +83,8 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (changeMode.isChecked() == true) {
-                    Toast.makeText(activity, "CHECKED", Toast.LENGTH_SHORT).show();
                     presenter.videoMode();
                 } else {
-                    Toast.makeText(activity, "UNCHECKED", Toast.LENGTH_SHORT).show();
                     presenter.pictureMode();
                 }
             }
@@ -270,5 +267,45 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void hideStopBtn() {
         stopBtn.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showSettingsBtn() {
+        settings.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSettingsBtn() {
+        settings.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showGaleryBtn() {
+        galery.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideGaleryBtn() {
+        galery.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showSwitch() {
+        changeMode.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSwitch() {
+        changeMode.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showTimerBtn() {
+        timer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideTimerBtn() {
+        timer.setVisibility(View.INVISIBLE);
     }
 }
