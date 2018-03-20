@@ -5,18 +5,14 @@ import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 public class MyCamera implements CameraContract.ICameraListener {
     private Camera mCamera;
@@ -149,22 +145,19 @@ public class MyCamera implements CameraContract.ICameraListener {
 
         mMediaRecorder = new MediaRecorder();
 
-        // Step 1: Unlock and set camera to MediaRecorder
         mCamera.unlock();
         mMediaRecorder.setCamera(mCamera);
 
-        // Step 2: Set sources
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
-        // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-//        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_480P));
 
-        // Step 4: Set output file
         mMediaRecorder.setOutputFile(os);
 
-        // Step 6: Prepare configured MediaRecorder
+        mMediaRecorder.setPreviewDisplay(mPreview.getHolder().getSurface());
+        mMediaRecorder.setOrientationHint(90);
+
         try {
             mMediaRecorder.prepare();
         } catch (IllegalStateException e) {
