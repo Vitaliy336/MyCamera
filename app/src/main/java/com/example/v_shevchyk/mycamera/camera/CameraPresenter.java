@@ -1,4 +1,4 @@
-package com.example.v_shevchyk.mycamera.Camera;
+package com.example.v_shevchyk.mycamera.camera;
 
 import android.hardware.Camera;
 
@@ -94,7 +94,6 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     @Override
     public void clikWhitelvl() {
         view.whiteLvl(convert(camera.cameraGetWhiteParams()));
-
     }
 
     @Override
@@ -125,6 +124,23 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     @Override
     public void colorsOptions(String color) {
         camera.applyColors(color);
+    }
+
+    @Override
+    public void timerClick() {
+        view.startTimer();
+    }
+
+    @Override
+    public void videoMode() {
+        view.hideidePictureBtn();
+        view.showVideoBtn();
+    }
+
+    @Override
+    public void pictureMode() {
+        view.hideVideoBtn();
+        view.showPictureBtn();
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.v_shevchyk.mycamera.Camera;
+package com.example.v_shevchyk.mycamera.camera;
 
 import android.hardware.Camera;
 
@@ -30,6 +30,21 @@ public class CameraContract {
         void whiteLvl(String[] lvl);
 
         void scenes(String[] scenes);
+
+        void startTimer();
+
+        void showPictureBtn();
+
+        void hideidePictureBtn();
+
+        void showVideoBtn();
+
+        void hideVideoBtn();
+
+        void showStopBtn();
+
+        void hideStopBtn();
+
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
@@ -60,6 +75,13 @@ public class CameraContract {
         void whiteLvl(String white);
 
         void colorsOptions(String color);
+
+        void timerClick();
+
+        void videoMode();
+
+        void pictureMode();
+
     }
 
     public interface ICameraListener {
@@ -94,5 +116,8 @@ public class CameraContract {
 
         void applyFlashLight(String flasLIght);
 
+        boolean prepareVideoRecorder();
+
+        void releaseVideoRecorder();
     }
 }

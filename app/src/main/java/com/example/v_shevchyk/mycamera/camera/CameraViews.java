@@ -1,19 +1,26 @@
-package com.example.v_shevchyk.mycamera.Camera;
+package com.example.v_shevchyk.mycamera.camera;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
 import com.example.v_shevchyk.mycamera.ResizeModule;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CameraViews implements View.OnClickListener, CameraContract.ICameraView, SeekBar.OnSeekBarChangeListener {
 
@@ -21,15 +28,21 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private FrameLayout preview;
     private SeekBar zoom;
     private LinearLayout settingsLayout;
-    private FloatingActionButton pictureBtn, galery, settings;
+    private FloatingActionButton pictureBtn, galery, settings, videoBtn, stopBtn;
     private ImageButton flashLight, timer, colorEfects, whitelvl, sceneMode;
     private CameraPresenter presenter;
+    private SwitchCompat changeMode;
+    private static boolean isChecked = false;
 
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
         this.presenter = presenter;
         initViews();
         initListeners();
+        initPresenter();
+    }
+
+    private void initPresenter() {
         presenter.attachView(this);
         presenter.createPreview();
         presenter.resizePreview();
@@ -48,6 +61,10 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         colorEfects = activity.findViewById(R.id.color_efects);
         preview = activity.findViewById(R.id.preview);
         zoom.setMax(presenter.getMaxZomm());
+        changeMode = activity.findViewById(R.id.switch_mode);
+        videoBtn = activity.findViewById(R.id.startrecording);
+        stopBtn = activity.findViewById(R.id.stoprecording);
+
     }
 
     private void initListeners() {
@@ -60,6 +77,19 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         colorEfects.setOnClickListener(this);
         settings.setOnClickListener(this);
         zoom.setOnSeekBarChangeListener(this);
+
+        changeMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (changeMode.isChecked() == true) {
+                    Toast.makeText(activity, "CHECKED", Toast.LENGTH_SHORT).show();
+                    presenter.videoMode();
+                } else {
+                    Toast.makeText(activity, "UNCHECKED", Toast.LENGTH_SHORT).show();
+                    presenter.pictureMode();
+                }
+            }
+        });
     }
 
     @Override
@@ -69,6 +99,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 presenter.clickFlashlight();
                 break;
             case R.id.timer:
+                presenter.timerClick();
                 break;
             case R.id.white_level:
                 presenter.clikWhitelvl();
@@ -95,7 +126,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     public void startPreview(CameraPreview cp) {
         preview.addView(cp);
     }
-
 
     @Override
     public void showSettings() {
@@ -142,6 +172,20 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                         presenter.flash(options[i]);
                         break;
                     case R.id.timer:
+                        final Handler handler = new Handler();
+                        Timer timer = new Timer(false);
+                        TimerTask timerTask = new TimerTask() {
+                            @Override
+                            public void run() {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        presenter.savePicture();
+                                    }
+                                });
+                            }
+                        };
+                        timer.schedule(timerTask, Integer.parseInt(options[i]) * 1000);
                         break;
                     case R.id.white_level:
                         presenter.whiteLvl(options[i]);
@@ -183,5 +227,40 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void scenes(String[] scenes) {
         buildDialog(scenes, sceneMode.getId());
+    }
+
+    @Override
+    public void startTimer() {
+        buildDialog(activity.getResources().getStringArray(R.array.seconds), timer.getId());
+    }
+
+    @Override
+    public void showPictureBtn() {
+        pictureBtn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideidePictureBtn() {
+        pictureBtn.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showVideoBtn() {
+        videoBtn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideVideoBtn() {
+        videoBtn.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showStopBtn() {
+        stopBtn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideStopBtn() {
+        stopBtn.setVisibility(View.INVISIBLE);
     }
 }

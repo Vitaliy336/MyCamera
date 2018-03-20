@@ -1,4 +1,4 @@
-package com.example.v_shevchyk.mycamera.Camera;
+package com.example.v_shevchyk.mycamera;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -10,6 +10,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.v_shevchyk.mycamera.R;
+import com.example.v_shevchyk.mycamera.camera.CameraPresenter;
+import com.example.v_shevchyk.mycamera.camera.CameraViews;
+import com.example.v_shevchyk.mycamera.camera.MyCamera;
 
 public class CameraActivity extends AppCompatActivity {
 

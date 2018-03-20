@@ -1,14 +1,17 @@
-package com.example.v_shevchyk.mycamera.Camera;
+package com.example.v_shevchyk.mycamera.camera;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.Display;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MyCamera implements CameraContract.ICameraListener {
@@ -18,6 +21,7 @@ public class MyCamera implements CameraContract.ICameraListener {
     private CameraPreview mPreview;
     private ResizeModule resizeModule;
     Display display;
+    private MediaRecorder mediaRecorder;
 
     public MyCamera(Context context, Display defaultDisplay) {
         this.mContext = context;
@@ -132,6 +136,44 @@ public class MyCamera implements CameraContract.ICameraListener {
     public void applyFlashLight(String flasLIght) {
         parameters.setFlashMode(flasLIght);
         applyParameters(parameters);
+    }
+
+    @Override
+    public boolean prepareVideoRecorder() {
+        mCamera.unlock();
+        String os = (String.format("/sdcard/MyFolder/%d.3gp",
+                System.currentTimeMillis()));
+
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+        mediaRecorder.setOutputFile(os);
+        mediaRecorder.setPreviewDisplay(mPreview.getHolder().getSurface());
+
+        try {
+            mediaRecorder.prepare();
+        } catch (IllegalStateException e) {
+            releaseVideoRecorder();
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            releaseVideoRecorder();
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public void releaseVideoRecorder() {
+        if (mediaRecorder != null) {
+            mediaRecorder.reset();
+            mediaRecorder.release();
+            mediaRecorder = null;
+            mCamera.lock();
+        }
     }
 
     public static Camera getCameraInstance() {
