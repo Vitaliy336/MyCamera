@@ -1,6 +1,7 @@
 package com.example.v_shevchyk.mycamera.camera;
 
 import android.hardware.Camera;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -141,6 +142,20 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     public void pictureMode() {
         view.hideVideoBtn();
         view.showPictureBtn();
+    }
+
+    @Override
+    public void startVideoClick() {
+        view.hideVideoBtn();
+        view.showStopBtn();
+        camera.startRecord();
+    }
+
+    @Override
+    public void stopVideoClick() {
+       view.hideStopBtn();
+       view.showVideoBtn();
+        camera.stopRecord();
     }
 
 

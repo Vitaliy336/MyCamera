@@ -5,14 +5,18 @@ import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 public class MyCamera implements CameraContract.ICameraListener {
     private Camera mCamera;
@@ -21,7 +25,7 @@ public class MyCamera implements CameraContract.ICameraListener {
     private CameraPreview mPreview;
     private ResizeModule resizeModule;
     Display display;
-    private MediaRecorder mediaRecorder;
+    private MediaRecorder mMediaRecorder;
 
     public MyCamera(Context context, Display defaultDisplay) {
         this.mContext = context;
@@ -140,38 +144,45 @@ public class MyCamera implements CameraContract.ICameraListener {
 
     @Override
     public boolean prepareVideoRecorder() {
-        mCamera.unlock();
         String os = (String.format("/sdcard/MyFolder/%d.3gp",
                 System.currentTimeMillis()));
 
-        mediaRecorder = new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-        mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
-        mediaRecorder.setOutputFile(os);
-        mediaRecorder.setPreviewDisplay(mPreview.getHolder().getSurface());
+        mMediaRecorder = new MediaRecorder();
 
+        // Step 1: Unlock and set camera to MediaRecorder
+        mCamera.unlock();
+        mMediaRecorder.setCamera(mCamera);
+
+        // Step 2: Set sources
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
+//        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+
+        // Step 4: Set output file
+        mMediaRecorder.setOutputFile(os);
+
+        // Step 6: Prepare configured MediaRecorder
         try {
-            mediaRecorder.prepare();
+            mMediaRecorder.prepare();
         } catch (IllegalStateException e) {
-            releaseVideoRecorder();
-            e.printStackTrace();
+            releaseMediaRecorder();
             return false;
         } catch (IOException e) {
-            releaseVideoRecorder();
-            e.printStackTrace();
+            releaseMediaRecorder();
             return false;
         }
-
         return true;
     }
 
     @Override
-    public void releaseVideoRecorder() {
-        if (mediaRecorder != null) {
-            mediaRecorder.reset();
-            mediaRecorder.release();
-            mediaRecorder = null;
+    public void releaseMediaRecorder() {
+        if (mMediaRecorder != null) {
+            mMediaRecorder.reset();
+            mMediaRecorder.release();
+            mMediaRecorder = null;
             mCamera.lock();
         }
     }
@@ -179,17 +190,17 @@ public class MyCamera implements CameraContract.ICameraListener {
     @Override
     public void startRecord() {
         if(prepareVideoRecorder()){
-            mediaRecorder.start();
+            mMediaRecorder.start();
         } else {
-            releaseVideoRecorder();
+            releaseMediaRecorder();
         }
     }
 
     @Override
     public void stopRecord() {
-        if(mediaRecorder != null){
-            mediaRecorder.stop();
-            releaseVideoRecorder();
+        if(mMediaRecorder != null){
+            mMediaRecorder.stop();
+            releaseMediaRecorder();
         }
     }
 

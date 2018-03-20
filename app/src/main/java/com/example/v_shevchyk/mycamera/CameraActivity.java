@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.v_shevchyk.mycamera.R;
 import com.example.v_shevchyk.mycamera.camera.CameraPresenter;
 import com.example.v_shevchyk.mycamera.camera.CameraViews;
 import com.example.v_shevchyk.mycamera.camera.MyCamera;
@@ -39,6 +38,7 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        myCamera.releaseMediaRecorder();
         myCamera.releaseCamera();
         updateGaleryBroadcast();
     }

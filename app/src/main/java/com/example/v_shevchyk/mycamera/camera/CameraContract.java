@@ -82,6 +82,10 @@ public class CameraContract {
 
         void pictureMode();
 
+        void startVideoClick();
+
+        void stopVideoClick();
+
     }
 
     public interface ICameraListener {
@@ -118,7 +122,7 @@ public class CameraContract {
 
         boolean prepareVideoRecorder();
 
-        void releaseVideoRecorder();
+        void releaseMediaRecorder();
 
         void startRecord();
 

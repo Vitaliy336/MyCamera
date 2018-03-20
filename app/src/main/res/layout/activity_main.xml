@@ -33,7 +33,7 @@
         tools:ignore="VectorDrawableCompat" android:focusable="true" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/stoprecording"
+        android:id="@+id/stop_r"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -51,7 +51,7 @@
         tools:ignore="VectorDrawableCompat" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/startrecording"
+        android:id="@+id/start_r"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

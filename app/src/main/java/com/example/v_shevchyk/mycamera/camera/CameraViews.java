@@ -62,8 +62,8 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         preview = activity.findViewById(R.id.preview);
         zoom.setMax(presenter.getMaxZomm());
         changeMode = activity.findViewById(R.id.switch_mode);
-        videoBtn = activity.findViewById(R.id.startrecording);
-        stopBtn = activity.findViewById(R.id.stoprecording);
+        videoBtn = activity.findViewById(R.id.start_r);
+        stopBtn = activity.findViewById(R.id.stop_r);
 
     }
 
@@ -77,6 +77,8 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         colorEfects.setOnClickListener(this);
         settings.setOnClickListener(this);
         zoom.setOnSeekBarChangeListener(this);
+        stopBtn.setOnClickListener(this);
+        videoBtn.setOnClickListener(this);
 
         changeMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -118,6 +120,12 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 break;
             case R.id.gal:
                 presenter.galeryClick();
+                break;
+            case R.id.start_r:
+                presenter.startVideoClick();
+                break;
+            case R.id.stop_r:
+                presenter.stopVideoClick();
                 break;
         }
     }
