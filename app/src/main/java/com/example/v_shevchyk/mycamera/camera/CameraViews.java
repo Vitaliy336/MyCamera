@@ -27,7 +27,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private FrameLayout preview;
     private SeekBar zoom;
     private LinearLayout settingsLayout;
-    private FloatingActionButton pictureBtn, galery, settings, videoBtn, stopBtn;
+    private FloatingActionButton pictureBtn, galery, settings, stopBtn;
     private ImageButton flashLight, timer, colorEfects, whitelvl, sceneMode;
     private CameraPresenter presenter;
     private SwitchCompat changeMode;
@@ -61,7 +61,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         preview = activity.findViewById(R.id.preview);
         zoom.setMax(presenter.getMaxZomm());
         changeMode = activity.findViewById(R.id.switch_mode);
-        videoBtn = activity.findViewById(R.id.start_r);
         stopBtn = activity.findViewById(R.id.stop_r);
 
     }
@@ -77,15 +76,16 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         settings.setOnClickListener(this);
         zoom.setOnSeekBarChangeListener(this);
         stopBtn.setOnClickListener(this);
-        videoBtn.setOnClickListener(this);
 
         changeMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (changeMode.isChecked() == true) {
+                if (changeMode.isChecked()) {
                     presenter.videoMode();
+                    pictureBtn.setImageResource(R.drawable.ic_videocam_black_24dp);
                 } else {
                     presenter.pictureMode();
+                    pictureBtn.setImageResource(R.drawable.ic_camera_black_24dp);
                 }
             }
         });
@@ -110,16 +110,20 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 presenter.settingsClick(settingsLayout.getVisibility());
                 break;
             case R.id.picture_btn:
-                presenter.savePicture();
+                if(changeMode.isChecked()) {
+                    presenter.videoMode();
+                    presenter.startVideoClick();
+
+                } else {
+                    presenter.savePicture();
+
+                }
                 break;
             case R.id.color_efects:
                 presenter.clickColor();
                 break;
             case R.id.gal:
                 presenter.galeryClick();
-                break;
-            case R.id.start_r:
-                presenter.startVideoClick();
                 break;
             case R.id.stop_r:
                 presenter.stopVideoClick();
@@ -247,16 +251,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void hideidePictureBtn() {
         pictureBtn.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void showVideoBtn() {
-        videoBtn.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideVideoBtn() {
-        videoBtn.setVisibility(View.INVISIBLE);
     }
 
     @Override

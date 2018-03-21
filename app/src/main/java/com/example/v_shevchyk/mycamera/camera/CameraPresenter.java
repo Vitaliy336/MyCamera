@@ -133,21 +133,18 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
 
     @Override
     public void videoMode() {
-        view.hideidePictureBtn();
-        view.showVideoBtn();
         view.hideTimerBtn();
     }
 
     @Override
     public void pictureMode() {
-        view.hideVideoBtn();
         view.showPictureBtn();
         view.showTimerBtn();
     }
 
     @Override
     public void startVideoClick() {
-        view.hideVideoBtn();
+        view.hideidePictureBtn();
         view.showStopBtn();
         view.hideGaleryBtn();
         view.hideSettingsBtn();
@@ -158,7 +155,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
     @Override
     public void stopVideoClick() {
         view.hideStopBtn();
-        view.showVideoBtn();
+        view.showPictureBtn();
         view.showGaleryBtn();
         view.showSettingsBtn();
         view.showSwitch();

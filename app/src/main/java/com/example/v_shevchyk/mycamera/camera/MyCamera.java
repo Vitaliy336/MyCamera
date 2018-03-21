@@ -197,6 +197,16 @@ public class MyCamera implements CameraContract.ICameraListener {
         }
     }
 
+    @Override
+    public void touchTofocus() {
+        if(parameters.getMaxNumMeteringAreas() > 0){
+
+        }
+        else {
+
+        }
+    }
+
     public static Camera getCameraInstance() {
         Camera c = null;
         try {

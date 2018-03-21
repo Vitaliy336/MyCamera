@@ -37,10 +37,6 @@ public class CameraContract {
 
         void hideidePictureBtn();
 
-        void showVideoBtn();
-
-        void hideVideoBtn();
-
         void showStopBtn();
 
         void hideStopBtn();
@@ -143,5 +139,7 @@ public class CameraContract {
         void startRecord();
 
         void stopRecord();
+
+        void touchTofocus();
     }
 }
