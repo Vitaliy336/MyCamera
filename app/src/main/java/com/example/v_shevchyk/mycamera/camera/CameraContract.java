@@ -3,7 +3,7 @@ package com.example.v_shevchyk.mycamera.camera;
 import android.graphics.Rect;
 import android.hardware.Camera;
 
-import com.example.v_shevchyk.mycamera.CameraPreview;
+import com.example.v_shevchyk.mycamera.camera.preview.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 import com.example.v_shevchyk.mycamera.base.BasePresenter;
 import com.example.v_shevchyk.mycamera.base.BaseView;

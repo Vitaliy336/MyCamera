@@ -11,7 +11,7 @@ import android.view.WindowManager;
 
 import com.example.v_shevchyk.mycamera.camera.CameraPresenter;
 import com.example.v_shevchyk.mycamera.camera.CameraViews;
-import com.example.v_shevchyk.mycamera.camera.MyCamera;
+import com.example.v_shevchyk.mycamera.cameralogic.MyCamera;
 
 public class CameraActivity extends AppCompatActivity {
 

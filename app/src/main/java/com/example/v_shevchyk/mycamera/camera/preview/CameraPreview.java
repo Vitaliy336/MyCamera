@@ -1,4 +1,4 @@
-package com.example.v_shevchyk.mycamera;
+package com.example.v_shevchyk.mycamera.camera.preview;
 
 import android.content.Context;
 import android.graphics.Rect;

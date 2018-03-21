@@ -17,7 +17,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
-import com.example.v_shevchyk.mycamera.CameraPreview;
+import com.example.v_shevchyk.mycamera.camera.preview.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 

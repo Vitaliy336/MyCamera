@@ -3,6 +3,8 @@ package com.example.v_shevchyk.mycamera.camera;
 import android.graphics.Rect;
 import android.hardware.Camera;
 
+import com.example.v_shevchyk.mycamera.cameralogic.MyCamera;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

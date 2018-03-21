@@ -1,4 +1,4 @@
-package com.example.v_shevchyk.mycamera.camera;
+package com.example.v_shevchyk.mycamera.cameralogic;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -9,8 +9,9 @@ import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.Display;
 
-import com.example.v_shevchyk.mycamera.CameraPreview;
+import com.example.v_shevchyk.mycamera.camera.preview.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
+import com.example.v_shevchyk.mycamera.camera.CameraContract;
 
 import java.io.IOException;
 import java.util.ArrayList;
