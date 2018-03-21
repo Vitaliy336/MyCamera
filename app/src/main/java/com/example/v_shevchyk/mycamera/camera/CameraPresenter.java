@@ -1,5 +1,6 @@
 package com.example.v_shevchyk.mycamera.camera;
 
+import android.graphics.Rect;
 import android.hardware.Camera;
 
 import java.io.File;
@@ -160,6 +161,11 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         view.showSettingsBtn();
         view.showSwitch();
         camera.stopRecord();
+    }
+
+    @Override
+    public void getRectArea(Rect rect) {
+        camera.touchTofocus(rect);
     }
 
 

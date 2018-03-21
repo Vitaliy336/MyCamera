@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -89,6 +92,15 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 }
             }
         });
+
+        preview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.e("clicked on:", "x= "+ motionEvent.getX() + " y= " + motionEvent.getY());
+                createRect((int)motionEvent.getX(), (int)motionEvent.getY());
+                return false;
+            }
+        });
     }
 
     @Override
@@ -113,10 +125,8 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 if(changeMode.isChecked()) {
                     presenter.videoMode();
                     presenter.startVideoClick();
-
                 } else {
                     presenter.savePicture();
-
                 }
                 break;
             case R.id.color_efects:
@@ -212,6 +222,21 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
         AlertDialog mDialog = mBuilder.create();
         mDialog.show();
+    }
+
+    private void createRect(int x, int y){
+        Rect rect = new Rect(x - 100, y - 100, x + 100, y + 100);
+        int left = rect.left * 2000 / preview.getWidth() - 1000;
+        int right = rect.right * 2000 / preview.getWidth() - 1000;
+        int top = rect.top * 2000 / preview.getHeight() - 1000;
+        int bottom = rect.bottom * 2000 / preview.getHeight() - 1000;
+
+        left = left < -1000 ? -1000 : left;
+        top = top < -1000 ? -1000 : top;
+        right = right > 1000 ? 1000 : right;
+        bottom = bottom > 1000 ? 1000 : bottom;
+
+        presenter.getRectArea(new Rect(left, top, right, bottom));
     }
 
     @Override

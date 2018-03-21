@@ -1,5 +1,6 @@
 package com.example.v_shevchyk.mycamera.camera;
 
+import android.graphics.Rect;
 import android.hardware.Camera;
 
 import com.example.v_shevchyk.mycamera.CameraPreview;
@@ -98,6 +99,8 @@ public class CameraContract {
 
         void stopVideoClick();
 
+        void getRectArea(Rect rect);
+
     }
 
     public interface ICameraListener {
@@ -140,6 +143,6 @@ public class CameraContract {
 
         void stopRecord();
 
-        void touchTofocus();
+        void touchTofocus(Rect rect);
     }
 }

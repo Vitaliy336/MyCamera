@@ -1,8 +1,10 @@
 package com.example.v_shevchyk.mycamera;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;

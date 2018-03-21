@@ -2,6 +2,7 @@ package com.example.v_shevchyk.mycamera.camera;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
@@ -12,6 +13,7 @@ import com.example.v_shevchyk.mycamera.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyCamera implements CameraContract.ICameraListener {
@@ -198,9 +200,13 @@ public class MyCamera implements CameraContract.ICameraListener {
     }
 
     @Override
-    public void touchTofocus() {
+    public void touchTofocus(Rect rect) {
         if(parameters.getMaxNumMeteringAreas() > 0){
-
+            List<Camera.Area>focusAreas = new ArrayList<Camera.Area>();
+            focusAreas.add(new Camera.Area(rect, 1000));
+            parameters.setFocusAreas(focusAreas);
+            mCamera.cancelAutoFocus();
+            applyParameters(parameters);
         }
         else {
 
