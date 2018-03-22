@@ -58,6 +58,10 @@ public class CameraContract {
 
         void hideTimerBtn();
 
+        void hideCounter();
+
+        void showCounter();
+
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{

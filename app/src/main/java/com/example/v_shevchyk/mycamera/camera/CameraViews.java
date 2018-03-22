@@ -6,11 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -34,7 +36,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private ImageButton flashLight, timer, colorEfects, whitelvl, sceneMode;
     private CameraPresenter presenter;
     private SwitchCompat changeMode;
-    private static boolean isChecked = false;
+    private Chronometer counter;
 
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
@@ -65,6 +67,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         zoom.setMax(presenter.getMaxZomm());
         changeMode = activity.findViewById(R.id.switch_mode);
         stopBtn = activity.findViewById(R.id.stop_r);
+        counter = activity.findViewById(R.id.counter);
 
     }
 
@@ -124,6 +127,8 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             case R.id.picture_btn:
                 if(changeMode.isChecked()) {
                     presenter.videoMode();
+                    counter.setBase(SystemClock.elapsedRealtime());
+                    counter.start();
                     presenter.startVideoClick();
                 } else {
                     presenter.savePicture();
@@ -136,6 +141,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 presenter.galeryClick();
                 break;
             case R.id.stop_r:
+                counter.stop();
                 presenter.stopVideoClick();
                 break;
         }
@@ -326,5 +332,15 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void hideTimerBtn() {
         timer.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void hideCounter() {
+        counter.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showCounter() {
+        counter.setVisibility(View.VISIBLE);
     }
 }

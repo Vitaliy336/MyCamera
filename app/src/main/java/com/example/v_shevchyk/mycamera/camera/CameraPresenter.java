@@ -152,6 +152,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         view.hideGaleryBtn();
         view.hideSettingsBtn();
         view.hideSwitch();
+        view.showCounter();
         camera.startRecord();
     }
 
@@ -162,6 +163,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         view.showGaleryBtn();
         view.showSettingsBtn();
         view.showSwitch();
+        view.hideCounter();
         camera.stopRecord();
     }
 
