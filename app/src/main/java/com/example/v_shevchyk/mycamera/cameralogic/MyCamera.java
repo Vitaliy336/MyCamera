@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
@@ -42,7 +43,7 @@ public class MyCamera implements CameraContract.ICameraListener {
 
     @Override
     public void takePicture(Camera.PictureCallback callback) {
-        mCamera.takePicture(null,null, callback);
+        mCamera.takePicture(getCallback(),null, callback);
         Log.e("TAG", "Picture taken");
     }
 
@@ -143,7 +144,7 @@ public class MyCamera implements CameraContract.ICameraListener {
 
     @Override
     public boolean prepareVideoRecorder() {
-        String os = (String.format("/sdcard/MyFolder/%d.3gp",
+        String os = (String.format("/sdcard/MyFolder/%d.mp4",
                 System.currentTimeMillis()));
 
         mMediaRecorder = new MediaRecorder();
@@ -221,5 +222,16 @@ public class MyCamera implements CameraContract.ICameraListener {
         } catch (Exception e) {
         }
         return c;
+    }
+
+    private Camera.ShutterCallback getCallback(){
+        Camera.ShutterCallback callback = new Camera.ShutterCallback() {
+            @Override
+            public void onShutter() {
+                AudioManager am = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                am.playSoundEffect(AudioManager.FLAG_PLAY_SOUND);
+            }
+        };
+        return callback;
     }
 }
