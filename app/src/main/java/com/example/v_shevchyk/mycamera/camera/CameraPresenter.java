@@ -2,6 +2,7 @@ package com.example.v_shevchyk.mycamera.camera;
 
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.view.SurfaceHolder;
 
 import com.example.v_shevchyk.mycamera.cameralogic.MyCamera;
 
@@ -180,5 +181,9 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
 
     public int getMaxZomm() {
         return maxZomm;
+    }
+
+    public SurfaceHolder.Callback getSurfaceHolder(){
+        return camera.getOtherHolder();
     }
 }

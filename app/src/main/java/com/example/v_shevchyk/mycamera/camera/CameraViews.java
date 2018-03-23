@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -11,6 +16,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
@@ -37,10 +44,14 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private CameraPresenter presenter;
     private SwitchCompat changeMode;
     private Chronometer counter;
+    private SurfaceView transparentView;
+    private SurfaceHolder.Callback holder;
+    private SurfaceHolder tHolder;
 
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
         this.presenter = presenter;
+        holder = presenter.getSurfaceHolder();
         initViews();
         initListeners();
         initPresenter();
@@ -69,6 +80,12 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         stopBtn = activity.findViewById(R.id.stop_r);
         counter = activity.findViewById(R.id.counter);
 
+        transparentView = activity.findViewById(R.id.TransparentView);
+
+        tHolder = transparentView.getHolder();
+        tHolder.setFormat(PixelFormat.TRANSPARENT);
+        tHolder.addCallback(holder);
+        tHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
     private void initListeners() {
@@ -101,6 +118,13 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.e("clicked on:", "x= "+ motionEvent.getX() + " y= " + motionEvent.getY());
                 createRect((int)motionEvent.getX(), (int)motionEvent.getY());
+
+                int l = (int)motionEvent.getX() - 100;
+                int r = (int)motionEvent.getX() + 100;
+                int u = (int)motionEvent.getY() - 100;
+                int d = (int)motionEvent.getY() + 100;
+
+                drawFocusRect(new Rect(l,u,d,r), Color.BLUE);
                 return false;
             }
         });
@@ -243,6 +267,18 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         bottom = bottom > 1000 ? 1000 : bottom;
 
         presenter.getRectArea(new Rect(left, top, right, bottom));
+    }
+
+    private void drawFocusRect(Rect rect, int color){
+        Canvas canvas = tHolder.lockCanvas();
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(color);
+        paint.setStrokeWidth(3);
+        canvas.drawRect(rect, paint);
+
+        tHolder.unlockCanvasAndPost(canvas);
     }
 
     @Override

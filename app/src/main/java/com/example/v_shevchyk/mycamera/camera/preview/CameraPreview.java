@@ -1,6 +1,7 @@
 package com.example.v_shevchyk.mycamera.camera.preview;
 
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.Log;
@@ -22,6 +23,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder = getHolder();
         mHolder.addCallback(this);
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
     }
 
     @Override
@@ -81,5 +83,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         res = res % 360;
         mCamera.setDisplayOrientation(res);
+    }
+
+    public SurfaceHolder.Callback getOtherHolder() {
+        return this;
     }
 }

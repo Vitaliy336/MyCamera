@@ -9,6 +9,7 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.Display;
+import android.view.SurfaceHolder;
 
 import com.example.v_shevchyk.mycamera.camera.preview.CameraPreview;
 import com.example.v_shevchyk.mycamera.ResizeModule;
@@ -32,6 +33,7 @@ public class MyCamera implements CameraContract.ICameraListener {
         mCamera = getCameraInstance();
         parameters = mCamera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        mPreview = new CameraPreview(mContext, mCamera);
         applyParameters(parameters);
         this.display = defaultDisplay;
     }
@@ -58,7 +60,6 @@ public class MyCamera implements CameraContract.ICameraListener {
 
     @Override
     public CameraPreview cameraStartPreview() {
-        mPreview = new CameraPreview(mContext, mCamera);
         return mPreview;
 
     }
@@ -233,5 +234,9 @@ public class MyCamera implements CameraContract.ICameraListener {
             }
         };
         return callback;
+    }
+
+    public SurfaceHolder.Callback getOtherHolder(){
+        return mPreview.getOtherHolder();
     }
 }
