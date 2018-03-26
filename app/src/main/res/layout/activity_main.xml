@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.v_shevchyk.mycamera.CameraActivity">
 
+    <SurfaceView
+        android:id="@+id/TransparentView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <FrameLayout
         android:id="@+id/preview"
         android:layout_width="0dp"
@@ -15,11 +20,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
-
-    <SurfaceView
-        android:id="@+id/TransparentView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/picture_btn"
