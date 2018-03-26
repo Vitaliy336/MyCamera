@@ -38,7 +38,7 @@ public class DrawModule {
                 int u = (int) motionEvent.getY() - 10;
                 int d = (int) motionEvent.getY() + 10;
 
-                //drawFocusRect(new Rect(l, u, d, r), Color.BLUE);
+                drawFocusRect(new Rect(l, u, d, r), Color.BLUE);
                 return false;
             }
         });

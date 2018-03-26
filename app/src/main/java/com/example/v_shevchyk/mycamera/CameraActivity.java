@@ -51,7 +51,7 @@ public class CameraActivity extends AppCompatActivity {
         myCamera = new MyCamera(this, getWindowManager().getDefaultDisplay());
         presenter = new CameraPresenter(myCamera, getResources().getConfiguration().orientation);
         views = new CameraViews(this, presenter);
-        //module = new DrawModule(this, myCamera.getmPreview().getCallback());
+        module = new DrawModule(this, myCamera.getmPreview());
 
     }
 
