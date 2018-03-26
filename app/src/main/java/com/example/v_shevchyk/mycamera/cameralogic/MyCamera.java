@@ -28,6 +28,7 @@ public class MyCamera implements CameraContract.ICameraListener {
     Display display;
     private MediaRecorder mMediaRecorder;
 
+
     public MyCamera(Context context, Display defaultDisplay) {
         this.mContext = context;
         mCamera = getCameraInstance();

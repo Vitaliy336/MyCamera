@@ -46,6 +46,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private Chronometer counter;
     private SurfaceView transparentView;
     private SurfaceHolder tHolder;
+    private SurfaceHolder.Callback callback;
 
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
@@ -115,7 +116,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 Log.e("clicked on:", "x= "+ motionEvent.getX() + " y= " + motionEvent.getY());
                 createRect((int)motionEvent.getX(), (int)motionEvent.getY());
-
+                tHolder.addCallback(callback);
                 int l = (int)motionEvent.getX() - 10;
                 int r = (int)motionEvent.getX() + 10;
                 int u = (int)motionEvent.getY() - 10;
@@ -172,7 +173,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void startPreview(CameraPreview cp) {
         preview.addView(cp);
-        tHolder.addCallback(cp.getCallback());
+        callback = cp.getCallback();
     }
 
     @Override
@@ -278,6 +279,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         canvas.drawRect(rect, paint);
 
         tHolder.unlockCanvasAndPost(canvas);
+        tHolder.removeCallback(callback);
     }
 
     @Override
