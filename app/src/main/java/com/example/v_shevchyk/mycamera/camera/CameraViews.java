@@ -4,20 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
@@ -26,9 +18,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
-import com.example.v_shevchyk.mycamera.camera.preview.CameraPreview;
 import com.example.v_shevchyk.mycamera.R;
-import com.example.v_shevchyk.mycamera.ResizeModule;
+import com.example.v_shevchyk.mycamera.camera.preview.CameraPreview;
+import com.example.v_shevchyk.mycamera.modules.DrawModule;
+import com.example.v_shevchyk.mycamera.modules.ResizeModule;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,9 +37,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private CameraPresenter presenter;
     private SwitchCompat changeMode;
     private Chronometer counter;
-    private SurfaceView transparentView;
-    private SurfaceHolder tHolder;
-    private SurfaceHolder.Callback callback;
+
 
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
@@ -79,11 +70,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         stopBtn = activity.findViewById(R.id.stop_r);
         counter = activity.findViewById(R.id.counter);
 
-        transparentView = activity.findViewById(R.id.TransparentView);
 
-        tHolder = transparentView.getHolder();
-        tHolder.setFormat(PixelFormat.TRANSPARENT);
-        tHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
     private void initListeners() {
@@ -111,22 +98,23 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             }
         });
 
-        preview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.e("clicked on:", "x= "+ motionEvent.getX() + " y= " + motionEvent.getY());
-                createRect((int)motionEvent.getX(), (int)motionEvent.getY());
-                tHolder.addCallback(callback);
-                int l = (int)motionEvent.getX() - 10;
-                int r = (int)motionEvent.getX() + 10;
-                int u = (int)motionEvent.getY() - 10;
-                int d = (int)motionEvent.getY() + 10;
-
-
-                drawFocusRect(new Rect(l,u,d,r), Color.BLUE);
-                return false;
-            }
-        });
+//        preview.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//
+//                createRect((int)motionEvent.getX(), (int)motionEvent.getY());
+//                //tHolder.addCallback(callback);
+//                int l = (int)motionEvent.getX() - 10;
+//                int r = (int)motionEvent.getX() + 10;
+//                int u = (int)motionEvent.getY() - 10;
+//                int d = (int)motionEvent.getY() + 10;
+//
+//
+//                //drawFocusRect(new Rect(l,u,d,r), Color.BLUE);
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -173,7 +161,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void startPreview(CameraPreview cp) {
         preview.addView(cp);
-        callback = cp.getCallback();
     }
 
     @Override
@@ -269,18 +256,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         presenter.getRectArea(new Rect(left, top, right, bottom));
     }
 
-    private void drawFocusRect(Rect rect, int color){
-        Canvas canvas = tHolder.lockCanvas();
-        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        Paint paint = new Paint();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(color);
-        paint.setStrokeWidth(3);
-        canvas.drawRect(rect, paint);
 
-        tHolder.unlockCanvasAndPost(canvas);
-        tHolder.removeCallback(callback);
-    }
 
     @Override
     public void goToGallery() {

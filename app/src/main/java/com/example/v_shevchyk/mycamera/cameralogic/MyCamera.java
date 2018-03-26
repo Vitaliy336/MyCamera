@@ -9,10 +9,9 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.Display;
-import android.view.SurfaceHolder;
 
 import com.example.v_shevchyk.mycamera.camera.preview.CameraPreview;
-import com.example.v_shevchyk.mycamera.ResizeModule;
+import com.example.v_shevchyk.mycamera.modules.ResizeModule;
 import com.example.v_shevchyk.mycamera.camera.CameraContract;
 
 import java.io.IOException;
@@ -235,5 +234,9 @@ public class MyCamera implements CameraContract.ICameraListener {
             }
         };
         return callback;
+    }
+
+    public CameraPreview getmPreview(){
+        return mPreview;
     }
 }

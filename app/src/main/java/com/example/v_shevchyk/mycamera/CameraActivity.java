@@ -13,12 +13,14 @@ import android.view.WindowManager;
 import com.example.v_shevchyk.mycamera.camera.CameraPresenter;
 import com.example.v_shevchyk.mycamera.camera.CameraViews;
 import com.example.v_shevchyk.mycamera.cameralogic.MyCamera;
+import com.example.v_shevchyk.mycamera.modules.DrawModule;
 
 public class CameraActivity extends AppCompatActivity {
 
     private MyCamera myCamera;
     private CameraViews views;
     private CameraPresenter presenter;
+    private DrawModule module;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class CameraActivity extends AppCompatActivity {
         myCamera = new MyCamera(this, getWindowManager().getDefaultDisplay());
         presenter = new CameraPresenter(myCamera, getResources().getConfiguration().orientation);
         views = new CameraViews(this, presenter);
+        module = new DrawModule(this, myCamera.getmPreview().getCallback());
 
     }
 

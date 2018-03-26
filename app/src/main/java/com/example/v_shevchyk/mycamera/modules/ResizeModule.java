@@ -1,4 +1,4 @@
-package com.example.v_shevchyk.mycamera;
+package com.example.v_shevchyk.mycamera.modules;
 
 import android.graphics.Matrix;
 import android.graphics.RectF;
