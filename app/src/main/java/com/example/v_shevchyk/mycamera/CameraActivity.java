@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -41,6 +42,7 @@ public class CameraActivity extends AppCompatActivity {
         myCamera.releaseMediaRecorder();
         myCamera.releaseCamera();
         updateGaleryBroadcast();
+        Log.e("Pause", "reached");
     }
 
     private void init() {

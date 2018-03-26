@@ -84,8 +84,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         res = res % 360;
         mCamera.setDisplayOrientation(res);
     }
-
-    public SurfaceHolder.Callback getOtherHolder() {
+    public SurfaceHolder.Callback getCallback(){
         return this;
     }
 }

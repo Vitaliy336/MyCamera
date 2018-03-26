@@ -183,7 +183,7 @@ public class CameraPresenter implements CameraContract.ICameraPresenter {
         return maxZomm;
     }
 
-    public SurfaceHolder.Callback getSurfaceHolder(){
-        return camera.getOtherHolder();
-    }
+//    public SurfaceHolder.Callback getSurfaceHolder(){
+//        return camera.getOtherHolder();
+//    }
 }

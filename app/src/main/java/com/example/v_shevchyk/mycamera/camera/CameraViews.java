@@ -45,13 +45,11 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private SwitchCompat changeMode;
     private Chronometer counter;
     private SurfaceView transparentView;
-    private SurfaceHolder.Callback holder;
     private SurfaceHolder tHolder;
 
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
         this.presenter = presenter;
-        holder = presenter.getSurfaceHolder();
         initViews();
         initListeners();
         initPresenter();
@@ -84,7 +82,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
         tHolder = transparentView.getHolder();
         tHolder.setFormat(PixelFormat.TRANSPARENT);
-        tHolder.addCallback(holder);
         tHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
@@ -119,10 +116,11 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 Log.e("clicked on:", "x= "+ motionEvent.getX() + " y= " + motionEvent.getY());
                 createRect((int)motionEvent.getX(), (int)motionEvent.getY());
 
-                int l = (int)motionEvent.getX() - 100;
-                int r = (int)motionEvent.getX() + 100;
-                int u = (int)motionEvent.getY() - 100;
-                int d = (int)motionEvent.getY() + 100;
+                int l = (int)motionEvent.getX() - 10;
+                int r = (int)motionEvent.getX() + 10;
+                int u = (int)motionEvent.getY() - 10;
+                int d = (int)motionEvent.getY() + 10;
+
 
                 drawFocusRect(new Rect(l,u,d,r), Color.BLUE);
                 return false;
@@ -174,6 +172,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void startPreview(CameraPreview cp) {
         preview.addView(cp);
+        tHolder.addCallback(cp.getCallback());
     }
 
     @Override

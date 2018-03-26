@@ -33,7 +33,6 @@ public class MyCamera implements CameraContract.ICameraListener {
         mCamera = getCameraInstance();
         parameters = mCamera.getParameters();
         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-        mPreview = new CameraPreview(mContext, mCamera);
         applyParameters(parameters);
         this.display = defaultDisplay;
     }
@@ -60,6 +59,7 @@ public class MyCamera implements CameraContract.ICameraListener {
 
     @Override
     public CameraPreview cameraStartPreview() {
+        mPreview = new CameraPreview(mContext, mCamera);
         return mPreview;
 
     }
@@ -234,9 +234,5 @@ public class MyCamera implements CameraContract.ICameraListener {
             }
         };
         return callback;
-    }
-
-    public SurfaceHolder.Callback getOtherHolder(){
-        return mPreview.getOtherHolder();
     }
 }
