@@ -60,7 +60,7 @@ public class DrawModule {
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(color);
-        paint.setStrokeWidth(3);
+        paint.setStrokeWidth(3f);
         canvas.drawRect(rect, paint);
 
         tHolder.unlockCanvasAndPost(canvas);

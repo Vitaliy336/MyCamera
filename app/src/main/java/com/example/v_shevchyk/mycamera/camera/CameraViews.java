@@ -98,23 +98,13 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
             }
         });
 
-//        preview.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//
-//                createRect((int)motionEvent.getX(), (int)motionEvent.getY());
-//                //tHolder.addCallback(callback);
-//                int l = (int)motionEvent.getX() - 10;
-//                int r = (int)motionEvent.getX() + 10;
-//                int u = (int)motionEvent.getY() - 10;
-//                int d = (int)motionEvent.getY() + 10;
-//
-//
-//                //drawFocusRect(new Rect(l,u,d,r), Color.BLUE);
-//                return false;
-//            }
-//        });
+        preview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                createRect((int)motionEvent.getX(), (int)motionEvent.getY());
+                return false;
+            }
+        });
     }
 
     @Override

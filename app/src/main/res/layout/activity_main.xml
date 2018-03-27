@@ -6,20 +6,28 @@
     android:layout_height="match_parent"
     tools:context="com.example.v_shevchyk.mycamera.CameraActivity">
 
-    <SurfaceView
-        android:id="@+id/TransparentView"
+    <RelativeLayout
+        android:id="@+id/root"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <FrameLayout
-        android:id="@+id/preview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <SurfaceView
+            android:id="@+id/TransparentView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    </FrameLayout>
+        <FrameLayout
+            android:id="@+id/preview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/picture_btn"

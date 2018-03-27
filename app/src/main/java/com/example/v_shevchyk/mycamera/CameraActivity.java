@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.example.v_shevchyk.mycamera.camera.CameraPresenter;
 import com.example.v_shevchyk.mycamera.camera.CameraViews;
@@ -21,6 +22,7 @@ public class CameraActivity extends AppCompatActivity {
     private CameraViews views;
     private CameraPresenter presenter;
     private DrawModule module;
+    private RelativeLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        findViewById(R.id.root).invalidate();
         myCamera.releaseMediaRecorder();
         myCamera.releaseCamera();
         updateGaleryBroadcast();
@@ -48,6 +51,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         myCamera = new MyCamera(this, getWindowManager().getDefaultDisplay());
         presenter = new CameraPresenter(myCamera, getResources().getConfiguration().orientation);
         views = new CameraViews(this, presenter);
