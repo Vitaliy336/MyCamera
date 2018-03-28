@@ -46,6 +46,12 @@ public class CameraActivity extends AppCompatActivity {
         Log.e("Pause", "reached");
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.detachView();
+    }
+
     private void init() {
 
         myCamera = new MyCamera(this, getWindowManager().getDefaultDisplay());

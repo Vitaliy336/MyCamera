@@ -73,7 +73,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         changeMode = activity.findViewById(R.id.switch_mode);
         stopBtn = activity.findViewById(R.id.stop_r);
         counter = activity.findViewById(R.id.counter);
-        preview.addView(drawModule, 0);
 
 
     }
@@ -155,6 +154,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
     @Override
     public void startPreview(CameraPreview cp) {
+        preview.addView(drawModule, 0);
         preview.addView(cp, 1);
         Log.e("sda", "dsa");
     }
