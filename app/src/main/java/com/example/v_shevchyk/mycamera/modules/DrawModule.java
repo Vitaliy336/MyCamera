@@ -1,17 +1,16 @@
 package com.example.v_shevchyk.mycamera.modules;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.os.Handler;
 
 public class DrawModule extends SurfaceView {
 
@@ -26,6 +25,7 @@ public class DrawModule extends SurfaceView {
         paint =  new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.GREEN);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(3f);
     }
 
     @Override
