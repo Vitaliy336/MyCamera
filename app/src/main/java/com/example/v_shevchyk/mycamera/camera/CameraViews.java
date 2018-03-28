@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Chronometer;
@@ -72,6 +73,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         changeMode = activity.findViewById(R.id.switch_mode);
         stopBtn = activity.findViewById(R.id.stop_r);
         counter = activity.findViewById(R.id.counter);
+        preview.addView(drawModule, 0);
 
 
     }
@@ -153,8 +155,8 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
     @Override
     public void startPreview(CameraPreview cp) {
-        preview.addView(drawModule);
-        preview.addView(cp);
+        preview.addView(cp, 1);
+        Log.e("sda", "dsa");
     }
 
     @Override
@@ -348,5 +350,10 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void showCounter() {
         counter.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void redraw() {
+        preview.removeAllViews();
     }
 }

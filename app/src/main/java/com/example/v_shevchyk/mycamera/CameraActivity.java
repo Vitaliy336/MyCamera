@@ -9,19 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
 import com.example.v_shevchyk.mycamera.camera.CameraPresenter;
 import com.example.v_shevchyk.mycamera.camera.CameraViews;
 import com.example.v_shevchyk.mycamera.cameralogic.MyCamera;
-import com.example.v_shevchyk.mycamera.modules.DrawModule;
 
 public class CameraActivity extends AppCompatActivity {
 
     private MyCamera myCamera;
     private CameraViews views;
     private CameraPresenter presenter;
-    private DrawModule module;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +42,7 @@ public class CameraActivity extends AppCompatActivity {
         myCamera.releaseMediaRecorder();
         myCamera.releaseCamera();
         updateGaleryBroadcast();
+        views.redraw();
         Log.e("Pause", "reached");
     }
 

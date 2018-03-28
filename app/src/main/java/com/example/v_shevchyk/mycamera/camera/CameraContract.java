@@ -62,6 +62,7 @@ public class CameraContract {
 
         void showCounter();
 
+        void redraw();
     }
 
     public interface ICameraPresenter extends BasePresenter<ICameraView>{
