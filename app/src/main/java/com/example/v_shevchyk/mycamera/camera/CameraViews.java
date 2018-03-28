@@ -349,8 +349,4 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     public void showCounter() {
         counter.setVisibility(View.VISIBLE);
     }
-
-    public void ttt(){
-        activity.findViewById(R.id.preview).invalidate();
-    }
 }

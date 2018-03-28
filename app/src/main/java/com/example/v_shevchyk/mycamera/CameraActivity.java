@@ -36,14 +36,12 @@ public class CameraActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         init();
-        views.ttt();
         updateGaleryBroadcast();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        views.ttt();
         myCamera.releaseMediaRecorder();
         myCamera.releaseCamera();
         updateGaleryBroadcast();

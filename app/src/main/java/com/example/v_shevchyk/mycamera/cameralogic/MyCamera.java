@@ -237,7 +237,4 @@ public class MyCamera implements CameraContract.ICameraListener {
         return callback;
     }
 
-    public SurfaceHolder.Callback getmPreview(){
-        return mPreview;
-    }
 }
