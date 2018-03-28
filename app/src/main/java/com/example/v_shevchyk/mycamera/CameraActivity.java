@@ -22,7 +22,6 @@ public class CameraActivity extends AppCompatActivity {
     private CameraViews views;
     private CameraPresenter presenter;
     private DrawModule module;
-    private RelativeLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +36,14 @@ public class CameraActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         init();
+        views.ttt();
         updateGaleryBroadcast();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        findViewById(R.id.root).invalidate();
+        views.ttt();
         myCamera.releaseMediaRecorder();
         myCamera.releaseCamera();
         updateGaleryBroadcast();
@@ -55,7 +55,6 @@ public class CameraActivity extends AppCompatActivity {
         myCamera = new MyCamera(this, getWindowManager().getDefaultDisplay());
         presenter = new CameraPresenter(myCamera, getResources().getConfiguration().orientation);
         views = new CameraViews(this, presenter);
-        module = new DrawModule(this, myCamera.getmPreview());
 
     }
 

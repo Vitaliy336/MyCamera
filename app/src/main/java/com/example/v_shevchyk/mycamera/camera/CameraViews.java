@@ -37,11 +37,14 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     private CameraPresenter presenter;
     private SwitchCompat changeMode;
     private Chronometer counter;
+    private DrawModule drawModule;
+
 
 
     public CameraViews(Activity activity, CameraPresenter presenter) {
         this.activity = activity;
         this.presenter = presenter;
+        drawModule = new DrawModule(activity);
         initViews();
         initListeners();
         initPresenter();
@@ -101,7 +104,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         preview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                createRect((int)motionEvent.getX(), (int)motionEvent.getY());
+                createRect((int) motionEvent.getX(), (int) motionEvent.getY());
                 return false;
             }
         });
@@ -126,7 +129,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
                 presenter.settingsClick(settingsLayout.getVisibility());
                 break;
             case R.id.picture_btn:
-                if(changeMode.isChecked()) {
+                if (changeMode.isChecked()) {
                     presenter.videoMode();
                     counter.setBase(SystemClock.elapsedRealtime());
                     counter.start();
@@ -150,6 +153,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
     @Override
     public void startPreview(CameraPreview cp) {
+        preview.addView(drawModule);
         preview.addView(cp);
     }
 
@@ -231,7 +235,7 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
         mDialog.show();
     }
 
-    private void createRect(int x, int y){
+    private void createRect(int x, int y) {
         Rect rect = new Rect(x - 100, y - 100, x + 100, y + 100);
         int left = rect.left * 2000 / preview.getWidth() - 1000;
         int right = rect.right * 2000 / preview.getWidth() - 1000;
@@ -245,7 +249,6 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
 
         presenter.getRectArea(new Rect(left, top, right, bottom));
     }
-
 
 
     @Override
@@ -345,5 +348,9 @@ public class CameraViews implements View.OnClickListener, CameraContract.ICamera
     @Override
     public void showCounter() {
         counter.setVisibility(View.VISIBLE);
+    }
+
+    public void ttt(){
+        activity.findViewById(R.id.preview).invalidate();
     }
 }
